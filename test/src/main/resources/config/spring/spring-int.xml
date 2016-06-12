@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.test.servicemonitor.gateway" />
+
+	<int:gateway id="httpRequestGateway"
+		service-interface="com.test.servicemonitor.gateway.HttpRequestGateway"
+		default-request-channel="httpReqOutStaging" default-reply-channel="httpRespIn" />
+
+	<int:channel id="httpReqOutStaging" />
+	<int:channel id="httpReqOut" />
+	<int:channel id="httpRespIn" />
+
+	<int:object-to-map-transformer
+		input-channel="httpReqOutStaging" output-channel="httpReqOut" />
+
+	<int-http:outbound-gateway id="httpOutboundGateway"
+		request-channel="httpReqOut" reply-channel="httpRespIn"
+		http-method-expression="headers.method" url-expression="headers.url"
+		expected-response-type="java.lang.String" />
+
+
+
+
+	<int:gateway id="failedCheckProcessingGateway"
+		service-interface="com.test.servicemonitor.gateway.FailedCheckProcessingGateway"
+		default-request-channel="failedCheckResultIn" />
+
+	<int:channel id="failedCheckResultIn" />
+
+</beans>
