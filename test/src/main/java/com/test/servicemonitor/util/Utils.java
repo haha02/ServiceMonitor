@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Utility class
+ *
+ */
 public class Utils {
 
 	public static List<String> getAllMessages(Throwable t) {
