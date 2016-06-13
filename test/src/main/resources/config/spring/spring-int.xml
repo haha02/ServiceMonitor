@@ -27,13 +27,34 @@
 		http-method-expression="headers.method" url-expression="headers.url"
 		expected-response-type="java.lang.String" />
 
-
-
-
 	<int:gateway id="failedCheckProcessingGateway"
 		service-interface="com.test.servicemonitor.gateway.FailedCheckProcessingGateway"
 		default-request-channel="failedCheckResultIn" />
 
 	<int:channel id="failedCheckResultIn" />
+	<int:channel id="failedCheckResultInEnriched" />
+	
+	<int:chain id="enricherChain" 
+		input-channel="failedCheckResultIn" output-channel="failedCheckResultInEnriched">
+		<int:header-enricher>
+			<int:header name="remoteSystem" expression="@remoteSystemService.get(headers.systemId)" />
+			<int:header name="notifications" expression="@notificationService.getBySystemId(headers.systemId)" />
+		</int:header-enricher>
+		<int:header-enricher>
+			<int:header name="notificationTypes" expression="T(com.test.servicemonitor.util.Utils).extractNotificationTypes(headers.notifications)" />
+		</int:header-enricher>
+	</int:chain>
+	
+	<int:channel id="sendEmailChannel" />
+	<int:channel id="sendSmsChannel" />
 
+	<int:recipient-list-router input-channel="failedCheckResultInEnriched"
+		default-output-channel="nullChannel">
+		<int:recipient channel="sendEmailChannel"
+			selector-expression="notificationTypes.contains(T(com.test.servicemonitor.persistance.Notification.Types).EMAIL.getDbValue())" />
+		<int:recipient channel="sendSmsChannel"
+			selector-expression="notificationTypes.contains(T(com.test.servicemonitor.persistance.Notification.Types).SMS.getDbValue())" />
+	</int:recipient-list-router>
+	
+		
 </beans>

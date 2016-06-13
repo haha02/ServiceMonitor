@@ -2,8 +2,12 @@ package com.test.servicemonitor.util;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import com.test.servicemonitor.persistance.Notification;
 
 /**
  * Utility class
@@ -48,5 +52,13 @@ public class Utils {
 
 	public static void main(String[] args) throws Exception {
 		Class.forName(null);
+	}
+
+	public static Set<String> extractNotificationTypes(List<Notification> notifications) {
+		Set<String> set = new HashSet<>();
+		for (Notification n : notifications) {
+			set.add(n.getKey().getNotify_type());
+		}
+		return set;
 	}
 }

@@ -52,7 +52,7 @@ public class MonitorTask implements Runnable {
 			logger.info("[{}]: check passed, remote system is alive.", taskId);
 		} else {
 			logger.info("[{}]: check not passed, pass check result to failure processing.", taskId);
-			failedCheckProcessingGateway.process(cr);
+			failedCheckProcessingGateway.process(systemId, cr);
 		}
 	}
 

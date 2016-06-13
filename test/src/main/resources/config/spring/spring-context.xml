@@ -7,27 +7,16 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 	
-	<context:property-placeholder properties-ref="config"/>
-	<context:component-scan base-package="com.test.servicemonitor.check,com.test.servicemonitor.persistance,com.test.servicemonitor.main" />
+	<context:component-scan base-package="com.test.servicemonitor.check,com.test.servicemonitor.main" />
 
 	<bean id="config"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="location" value="classpath:config/config.properties" />
 	</bean>
-
-	<bean id="dataSource" class="org.h2.jdbcx.JdbcConnectionPool"
-		factory-method="create" destroy-method="dispose">
-		<constructor-arg>
-			<bean class="org.h2.jdbcx.JdbcDataSource">
-				<property name="url" value="${servicemonitor.jdbc.url}" />
-				<property name="user" value="${servicemonitor.jdbc.user}" />
-				<property name="password" value="${servicemonitor.jdbc.password}" />
-			</bean>
-		</constructor-arg>
-	</bean>
 	
 	<task:scheduler id="taskScheduler" pool-size="4"/>
 	
 	<import resource="spring-int.xml" />
+	<import resource="spring-orm.xml" />
 	
 </beans>

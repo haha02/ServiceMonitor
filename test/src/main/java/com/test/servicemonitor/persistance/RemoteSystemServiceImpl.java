@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-@Service
+@Service("remoteSystemService")
 public class RemoteSystemServiceImpl implements RemoteSystemService {
 
 	@Autowired
@@ -20,7 +20,7 @@ public class RemoteSystemServiceImpl implements RemoteSystemService {
 	@Override
 	public RemoteSystem get(String systemId) {
 		RemoteSystem entity = new RemoteSystem();
-		entity.setSystemId(systemId);
+		entity.setSystem_id(systemId);
 		return dao.get(entity);
 	}
 
@@ -33,7 +33,7 @@ public class RemoteSystemServiceImpl implements RemoteSystemService {
 	@Override
 	public void delete(String systemId) {
 		RemoteSystem entity = new RemoteSystem();
-		entity.setSystemId(systemId);
+		entity.setSystem_id(systemId);
 		dao.delete(entity);
 	}
 

@@ -22,6 +22,7 @@ import com.test.servicemonitor.check.LifeChecker;
 import com.test.servicemonitor.gateway.FailedCheckProcessingGateway;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
+import com.test.servicemonitor.util.Constants;
 
 @Component
 public class MainScheduler {
@@ -66,7 +67,7 @@ public class MainScheduler {
 
 		List<RemoteSystem> rsList = remoteSystemService.getAll();
 		for (RemoteSystem rs : rsList) {
-			if (!rs.isDisabled()) {
+			if (!Constants.FLAG_YES.equals(rs.getDisabled())) {
 				start(rs);
 			}
 		}
@@ -88,8 +89,8 @@ public class MainScheduler {
 	}
 
 	private boolean start(RemoteSystem rs) {
-		String systemId = rs.getSystemId();
-		String checkerType = rs.getCheckerType();
+		String systemId = rs.getSystem_id();
+		String checkerType = rs.getChecker_type();
 		if (!checkerFactory.isSupport(checkerType)) {
 			// XXX throws exception?
 			logger.warn("System [{}] is mapped to an unsupported checker type [{}], skip monitoring this system.",
@@ -98,7 +99,7 @@ public class MainScheduler {
 		}
 
 		Properties hints = getHintsProperties(rs);
-		LifeChecker checker = checkerFactory.getChecker(systemId, checkerType, rs.getConnectionString(), hints);
+		LifeChecker checker = checkerFactory.getChecker(systemId, checkerType, rs.getConnection_string(), hints);
 
 		MonitorTask task = new MonitorTask(systemId, checker, failedCheckProcessingGateway);
 		MonitorTrigger trigger = new MonitorTrigger(systemId, remoteSystemService);

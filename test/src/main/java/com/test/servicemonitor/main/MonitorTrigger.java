@@ -9,8 +9,8 @@ import org.springframework.scheduling.TriggerContext;
 import org.springframework.util.Assert;
 
 import com.test.servicemonitor.persistance.RemoteSystem;
-import com.test.servicemonitor.persistance.RemoteSystem.PeriodUnit;
 import com.test.servicemonitor.persistance.RemoteSystemService;
+import com.test.servicemonitor.persistance.RemoteSystem.PeriodUnit;
 
 public class MonitorTrigger implements Trigger {
 
@@ -65,13 +65,13 @@ public class MonitorTrigger implements Trigger {
 		RemoteSystem rs = remoteSystemService.get(systemId);
 		PeriodUnit pu;
 		try {
-			pu = PeriodUnit.valueOf(rs.getPeriodUnit());
+			pu = PeriodUnit.valueOf(rs.getPeriod_unit());
 		} catch (Exception e) {
 			throw new IllegalStateException("Unsupported REMOTE_SYSTEM > PERIOD_UNIT value "
-					+ "(PK=" + rs.getSystemId() + "): " + rs.getPeriodUnit(), e);
+					+ "(PK=" + rs.getSystem_id() + "): " + rs.getPeriod_unit(), e);
 		}
 
-		int period = rs.getCheckPeriod();// should >= 0
+		int period = rs.getCheck_period();// should >= 0
 		// may need additional check? in case someone's messing the DB up
 		return period * pu.getUnitMiliSec();
 	}

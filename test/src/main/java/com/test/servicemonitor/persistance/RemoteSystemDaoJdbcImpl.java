@@ -15,7 +15,7 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository
+//@Repository
 public class RemoteSystemDaoJdbcImpl extends GenericDaoJdbcSupport implements RemoteSystemDao {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class RemoteSystemDaoJdbcImpl extends GenericDaoJdbcSupport implements Re
 	@Override
 	public RemoteSystem get(RemoteSystem entity) {
 		String sql = SQL_SELECT + SQL_WHERE_SYSID;
-		Map<String, String> paramMap = Collections.singletonMap("systemId", entity.getSystemId());
+		Map<String, String> paramMap = Collections.singletonMap("systemId", entity.getSystem_id());
 		return DataAccessUtils.singleResult(executeQuery(sql, paramMap, new RemoteSystemRowMapper()));
 	}
 
@@ -66,19 +66,19 @@ public class RemoteSystemDaoJdbcImpl extends GenericDaoJdbcSupport implements Re
 	@Override
 	public void delete(RemoteSystem entity) {
 		String sql = "delete from REMOTE_SYSTEM" + SQL_WHERE_SYSID;
-		Map<String, String> paramMap = Collections.singletonMap("systemId", entity.getSystemId());
+		Map<String, String> paramMap = Collections.singletonMap("systemId", entity.getSystem_id());
 		executeUpdate(sql, paramMap);
 	}
 
 	private Map<String, Object> toParamMap(RemoteSystem entity) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("systemId", entity.getSystemId());
-		map.put("checkerType", entity.getCheckerType());
-		map.put("connectionString", entity.getConnectionString());
+		map.put("systemId", entity.getSystem_id());
+		map.put("checkerType", entity.getChecker_type());
+		map.put("connectionString", entity.getConnection_string());
 		map.put("hints", entity.getHints());
-		map.put("checkPeriod", entity.getCheckPeriod());
-		map.put("periodUnit", entity.getPeriodUnit());
-		map.put("disabled", entity.isDisabled() ? "Y" : "N");
+		map.put("checkPeriod", entity.getCheck_period());
+		map.put("periodUnit", entity.getPeriod_unit());
+		map.put("disabled", entity.getDisabled());
 		return map;
 	}
 
@@ -86,13 +86,13 @@ public class RemoteSystemDaoJdbcImpl extends GenericDaoJdbcSupport implements Re
 		@Override
 		public RemoteSystem mapRow(ResultSet rs, int rowNum) throws SQLException {
 			RemoteSystem bean = new RemoteSystem();
-			bean.setSystemId(rs.getString("SYSTEM_ID"));
-			bean.setCheckerType(rs.getString("CHECKER_TYPE"));
-			bean.setConnectionString(rs.getString("CONNECTION_STRING"));
+			bean.setSystem_id(rs.getString("SYSTEM_ID"));
+			bean.setChecker_type(rs.getString("CHECKER_TYPE"));
+			bean.setConnection_string(rs.getString("CONNECTION_STRING"));
 			bean.setHints(rs.getString("HINTS"));
-			bean.setCheckPeriod(rs.getInt("CHECK_PERIOD"));
-			bean.setPeriodUnit(rs.getString("PERIOD_UNIT"));
-			bean.setDisabled("Y".equals(rs.getString("DISABLED")));
+			bean.setCheck_period(rs.getInt("CHECK_PERIOD"));
+			bean.setPeriod_unit(rs.getString("PERIOD_UNIT"));
+			bean.setDisabled(rs.getString("DISABLED"));
 			return bean;
 		}
 	}
