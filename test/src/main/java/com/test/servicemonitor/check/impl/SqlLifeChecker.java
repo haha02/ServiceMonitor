@@ -9,7 +9,7 @@ import java.sql.Statement;
 import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.check.FailLevel;
 import com.test.servicemonitor.check.SimpleCheckResult;
-import com.test.servicemonitor.check.ThrowableEncolsingCeckResult;
+import com.test.servicemonitor.check.ThrowableEncolsingCheckResult;
 
 public class SqlLifeChecker extends AbstractLifeChecker {
 
@@ -44,7 +44,7 @@ public class SqlLifeChecker extends AbstractLifeChecker {
 				closeConnection();
 			}
 		} catch (SQLException e) {
-			return new ThrowableEncolsingCeckResult(e, FailLevel.FATAL);
+			return new ThrowableEncolsingCheckResult(e, FailLevel.FATAL);
 		}
 		return new SimpleCheckResult(true);
 	}

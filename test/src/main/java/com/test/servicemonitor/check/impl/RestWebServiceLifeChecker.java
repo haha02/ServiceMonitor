@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 
 import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.check.SimpleCheckResult;
-import com.test.servicemonitor.check.ThrowableEncolsingCeckResult;
+import com.test.servicemonitor.check.ThrowableEncolsingCheckResult;
 import com.test.servicemonitor.integration.HttpRequestGateway;
 
 public class RestWebServiceLifeChecker extends AbstractLifeChecker {
@@ -33,7 +33,7 @@ public class RestWebServiceLifeChecker extends AbstractLifeChecker {
 			logger.debug("[{}]: got response [{}]", getSystemId(), response);
 			return new SimpleCheckResult(true);
 		} catch (Exception e) {
-			return new ThrowableEncolsingCeckResult(e);
+			return new ThrowableEncolsingCheckResult(e);
 		}
 	}
 

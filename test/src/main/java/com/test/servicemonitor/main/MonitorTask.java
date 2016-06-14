@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 
 import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.check.LifeChecker;
-import com.test.servicemonitor.check.ThrowableEncolsingCeckResult;
+import com.test.servicemonitor.check.ThrowableEncolsingCheckResult;
 import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
 
 public class MonitorTask implements Runnable {
@@ -45,7 +45,7 @@ public class MonitorTask implements Runnable {
 		try {
 			cr = lifeChecker.check();
 		} catch (Exception e) {
-			cr = new ThrowableEncolsingCeckResult(e);// with level FATAL
+			cr = new ThrowableEncolsingCheckResult(e);// with level FATAL
 		}
 
 		if (cr.isPassed()) {

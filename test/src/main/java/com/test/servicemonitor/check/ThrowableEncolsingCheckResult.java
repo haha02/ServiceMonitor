@@ -1,15 +1,15 @@
 package com.test.servicemonitor.check;
 
-public class ThrowableEncolsingCeckResult implements CheckResult {
+public class ThrowableEncolsingCheckResult implements CheckResult {
 
 	private Throwable t;
 	private FailLevel level;
 
-	public ThrowableEncolsingCeckResult(Throwable t) {
+	public ThrowableEncolsingCheckResult(Throwable t) {
 		this(t, null);
 	}
 
-	public ThrowableEncolsingCeckResult(Throwable t, FailLevel level) {
+	public ThrowableEncolsingCheckResult(Throwable t, FailLevel level) {
 		super();
 		this.t = t;
 		this.level = (level != null) ? level : FailLevel.FATAL;
