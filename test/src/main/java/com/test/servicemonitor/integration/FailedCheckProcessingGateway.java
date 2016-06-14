@@ -1,4 +1,4 @@
-package com.test.servicemonitor.gateway;
+package com.test.servicemonitor.integration;
 
 import org.springframework.messaging.handler.annotation.Header;
 

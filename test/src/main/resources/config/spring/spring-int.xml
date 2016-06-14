@@ -2,17 +2,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
 		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http-4.2.xsd
+		http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.test.servicemonitor.gateway" />
+	<context:component-scan base-package="com.test.servicemonitor.integration" />
 
 	<int:gateway id="httpRequestGateway"
-		service-interface="com.test.servicemonitor.gateway.HttpRequestGateway"
+		service-interface="com.test.servicemonitor.integration.HttpRequestGateway"
 		default-request-channel="httpReqOutStaging" default-reply-channel="httpRespIn" />
 
 	<int:channel id="httpReqOutStaging" />
@@ -28,7 +30,7 @@
 		expected-response-type="java.lang.String" />
 
 	<int:gateway id="failedCheckProcessingGateway"
-		service-interface="com.test.servicemonitor.gateway.FailedCheckProcessingGateway"
+		service-interface="com.test.servicemonitor.integration.FailedCheckProcessingGateway"
 		default-request-channel="failedCheckResultIn" />
 
 	<int:channel id="failedCheckResultIn" />
@@ -56,5 +58,41 @@
 			selector-expression="notificationTypes.contains(T(com.test.servicemonitor.persistance.Notification.Types).SMS.getDbValue())" />
 	</int:recipient-list-router>
 	
-		
+	<int:service-activator ref="mailSendingServiceActivator" method="send" input-channel="sendEmailChannel" />
+	<bean id="mailSendingServiceActivator" class="com.test.servicemonitor.integration.MailSendingServiceActivator"/>
+	
+	<int:service-activator ref="smsSendingServiceActivator" method="send" input-channel="sendSmsChannel" />
+	<bean id="smsSendingServiceActivator" class="com.test.servicemonitor.integration.DummySmsSendingServiceActivator"/>
+	
+	<int:gateway id="mailSendingGateway" 
+		service-interface="com.test.servicemonitor.integration.MailSendingGateway" 
+		default-request-channel="outboundMail"/>
+	
+	<int:channel id="outboundMail" />
+	
+	<int:chain input-channel="outboundMail">
+		<int-mail:header-enricher default-overwrite="false">
+			<int-mail:to expression="headers.userInfo.email"/>
+			<int-mail:from expression="'service.monitor@aotter.net'"/>
+			<int-mail:reply-to expression="'service.monitor@aotter.net'"/>
+			<int-mail:subject expression="headers.subject" overwrite="true"/>
+		</int-mail:header-enricher>
+		<int-mail:outbound-channel-adapter mail-sender="javaMailSender"/>
+	</int:chain>
+	
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="127.0.0.1" />
+		<property name="port" value="25" />
+		<property name="username" value="all.hail.guyspy@aotter.net" />
+		<property name="password" value="HowDoYouTurnThisOn" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.debug">false</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
 </beans>

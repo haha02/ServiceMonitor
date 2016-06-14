@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 
 import com.test.servicemonitor.check.CheckerFactory;
 import com.test.servicemonitor.check.LifeChecker;
-import com.test.servicemonitor.gateway.FailedCheckProcessingGateway;
+import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 import com.test.servicemonitor.util.Constants;

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
@@ -39,7 +40,7 @@ public class UserGroup {
 		this.group_name = group_name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "GROUP_MEMBER", joinColumns = {
 			@JoinColumn(name = "GROUP_ID", referencedColumnName = "GROUP_ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") })

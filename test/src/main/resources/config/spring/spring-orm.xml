@@ -48,7 +48,7 @@
 	</tx:advice>
 
 	<aop:config>
-		<aop:pointcut id="txPointcut" expression="execution(* com.test.servicemonitor.persistance.service..*Service.*(..))" />
+		<aop:pointcut id="txPointcut" expression="execution(* com.test.servicemonitor.persistance..*Service.*(..))" />
 		<aop:advisor pointcut-ref="txPointcut" advice-ref="hibernateTxAdvice" />
 	</aop:config>
 	

@@ -1,24 +1,14 @@
 package com.test.servicemonitor.persistance;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class NotificationDaoHibernateImpl extends GenericDaoHibernateSupport implements NotificationDao {
-
-	@Override
-	public Notification get(Notification entity) {
-		assertEntityNotNull(entity);
-		return (Notification) getCurrentSession().get(Notification.class, entity.getKey());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Notification> getAll() {
-		return getCurrentSession().createCriteria(Notification.class).list();
-	}
+public class NotificationDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<Notification>
+		implements NotificationDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -29,21 +19,14 @@ public class NotificationDaoHibernateImpl extends GenericDaoHibernateSupport imp
 	}
 
 	@Override
-	public void save(Notification entity) {
+	protected Serializable acquireId(Notification entity) {
 		assertEntityNotNull(entity);
-		getCurrentSession().save(entity);
+		return entity.getKey();
 	}
 
 	@Override
-	public void update(Notification entity) {
-		assertEntityNotNull(entity);
-		getCurrentSession().update(entity);
-	}
-
-	@Override
-	public void delete(Notification entity) {
-		assertEntityNotNull(entity);
-		getCurrentSession().delete(entity);
+	protected Class<Notification> getEntityClass() {
+		return Notification.class;
 	}
 
 }

@@ -14,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.test.servicemonitor.check.impl.RestWebServiceLifeChecker;
 import com.test.servicemonitor.check.impl.SqlLifeChecker;
-import com.test.servicemonitor.gateway.HttpRequestGateway;
+import com.test.servicemonitor.integration.HttpRequestGateway;
 
 @Component
 public class CheckerFactory {

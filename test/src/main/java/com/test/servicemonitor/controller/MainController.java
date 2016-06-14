@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.check.impl.RestWebServiceLifeChecker;
-import com.test.servicemonitor.gateway.HttpRequestGateway;
+import com.test.servicemonitor.integration.HttpRequestGateway;
 
 @Controller
 @RequestMapping("/")
@@ -21,9 +22,9 @@ public class MainController {
 	@Autowired
 	private HttpRequestGateway gateway;
 
-	@RequestMapping(path = { "/", "index*" })
+	@RequestMapping(path = { "/", "index*" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String index() {
-		return "WEB-INF/index.jsp";
+		return "index";
 	}
 
 	@RequestMapping(path = { "/echo" })

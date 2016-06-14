@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.check.SimpleCheckResult;
 import com.test.servicemonitor.check.ThrowableEncolsingCeckResult;
-import com.test.servicemonitor.gateway.HttpRequestGateway;
+import com.test.servicemonitor.integration.HttpRequestGateway;
 
 public class RestWebServiceLifeChecker extends AbstractLifeChecker {
 	public static final String HINT_METHOD = "http-method";

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("notificationService")
 public class NotificationServiceImpl implements NotificationService {
 
 	@Autowired
@@ -47,6 +47,11 @@ public class NotificationServiceImpl implements NotificationService {
 		Notification entity = new Notification();
 		entity.setKey(key);
 		return entity;
+	}
+
+	@Override
+	public List<Notification> getBySystemId(Notification entity) {
+		return dao.getBySystemId(entity);
 	}
 
 }

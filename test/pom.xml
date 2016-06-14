@@ -10,15 +10,21 @@
 		<!-- Spring -->
 		<spring.core.ver>4.2.6.RELEASE</spring.core.ver>
 		<spring.int.ver>4.2.6.RELEASE</spring.int.ver>
-		
+
 		<!-- Logging -->
 		<logback.version>1.1.7</logback.version>
 		<jcl.slf4j.version>1.7.20</jcl.slf4j.version>
-	
+
 		<!-- Java Web -->
 		<jsp.version>2.2</jsp.version>
 		<jstl.version>1.2</jstl.version>
 		<servlet.version>3.0.1</servlet.version>
+
+		<aspectj.ver>1.8.7</aspectj.ver>
+		
+		<!-- Mail Related -->
+		<java.mail.version>1.4</java.mail.version>
+		<javax.activation.version>1.1.1</javax.activation.version>
 	</properties>
 
 	<dependencies>
@@ -38,6 +44,11 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.core.ver}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.core.ver}</version>
+		</dependency>
 		<!-- http://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -54,7 +65,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.core.ver}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-core</artifactId>
@@ -65,7 +76,16 @@
 			<artifactId>spring-integration-http</artifactId>
 			<version>${spring.int.ver}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-mail</artifactId>
+			<version>${spring.int.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.ver}</version>
+		</dependency>
 		<!-- ** Logging ** -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -100,13 +120,12 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
-				<!-- *** Servlet & JSP *** -->
+
+		<!-- *** Servlet & JSP *** -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -120,14 +139,25 @@
 			<version>${jsp.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
-			<!-- *** Hibernate *** -->
+
+		<!-- *** Hibernate *** -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>4.3.11.Final</version>
 		</dependency>
 		
+		<!-- Mail Related -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${java.mail.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>${javax.activation.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>test</finalName>
