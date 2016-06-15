@@ -65,7 +65,8 @@ public class MonitorTrigger implements Trigger {
 		RemoteSystem rs = remoteSystemService.get(systemId);
 		PeriodUnit pu;
 		try {
-			pu = PeriodUnit.valueOf(rs.getPeriod_unit());
+			pu = rs.getPeriod_unit();
+			// pu = PeriodUnit.valueOf(rs.getPeriod_unit());
 		} catch (Exception e) {
 			throw new IllegalStateException("Unsupported REMOTE_SYSTEM > PERIOD_UNIT value "
 					+ "(PK=" + rs.getSystem_id() + "): " + rs.getPeriod_unit(), e);

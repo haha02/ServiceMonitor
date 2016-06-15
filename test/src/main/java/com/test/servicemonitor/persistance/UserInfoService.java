@@ -8,7 +8,7 @@ public interface UserInfoService {
 
 	List<UserInfo> getAll();
 
-	void save(UserInfo entity);
+	void create(UserInfo entity);
 
 	void update(UserInfo entity);
 

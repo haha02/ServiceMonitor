@@ -24,7 +24,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public void save(UserInfo entity) {
+	public void create(UserInfo entity) {
 		dao.save(entity);
 	}
 

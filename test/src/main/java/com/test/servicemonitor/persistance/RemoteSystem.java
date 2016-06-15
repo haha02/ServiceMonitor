@@ -18,22 +18,17 @@ public class RemoteSystem {
 			this.miliSec = miliSec;
 		}
 
-		public String getDbValue() {
-			return toString();
-		}
-
 		public long getUnitMiliSec() {
 			return miliSec;
 		}
 	}
-
 	private String system_id;
 	private String checker_type;
 	private String connection_string;
 	private String hints;
-	private int check_period;
-	private String period_unit;
-	private String disabled;
+	private Integer check_period;
+	private PeriodUnit period_unit;
+	private Boolean disabled;
 
 	@Id
 	@Column(name = "SYSTEM_ID")
@@ -73,29 +68,29 @@ public class RemoteSystem {
 	}
 
 	@Column(name = "CHECK_PERIOD")
-	public int getCheck_period() {
+	public Integer getCheck_period() {
 		return check_period;
 	}
 
-	public void setCheck_period(int check_period) {
+	public void setCheck_period(Integer check_period) {
 		this.check_period = check_period;
 	}
 
 	@Column(name = "PERIOD_UNIT")
-	public String getPeriod_unit() {
+	public PeriodUnit getPeriod_unit() {
 		return period_unit;
 	}
 
-	public void setPeriod_unit(String period_unit) {
+	public void setPeriod_unit(PeriodUnit period_unit) {
 		this.period_unit = period_unit;
 	}
 
 	@Column(name = "DISABLED")
-	public String getDisabled() {
+	public Boolean getDisabled() {
 		return disabled;
 	}
 
-	public void setDisabled(String disabled) {
+	public void setDisabled(Boolean disabled) {
 		this.disabled = disabled;
 	}
 

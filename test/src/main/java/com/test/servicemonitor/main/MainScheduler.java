@@ -67,7 +67,7 @@ public class MainScheduler {
 
 		List<RemoteSystem> rsList = remoteSystemService.getAll();
 		for (RemoteSystem rs : rsList) {
-			if (!Constants.FLAG_YES.equals(rs.getDisabled())) {
+			if (!rs.getDisabled()) {
 				start(rs);
 			}
 		}

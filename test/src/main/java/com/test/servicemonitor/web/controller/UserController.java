@@ -34,11 +34,6 @@ public class UserController extends ControllerSupport {
 		return new UserForm();
 	}
 
-	@Override
-	protected void initBinder(DataBinder binder) {
-		super.initBinder(binder);
-	}
-
 	@RequestMapping("/")
 	public String root(ModelMap model) {
 		List<UserInfo> users = userInfoService.getAll();
@@ -73,7 +68,7 @@ public class UserController extends ControllerSupport {
 			model.put("errors", bindingResult.getAllErrors());
 		} else {
 			UserInfo userInfo = form.getUserInfo();
-			userInfoService.save(userInfo);
+			userInfoService.create(userInfo);
 			model.put("msg", "User [" + userInfo.getUser_id() + "] added.");
 		}
 		return REDIRECT_ROOT_PATH;
@@ -103,19 +98,20 @@ public class UserController extends ControllerSupport {
 		return REDIRECT_ROOT_PATH;
 	}
 
-	@Override
-	protected Validator[] getValidators() {
-		Validator validator = new Validator() {
-			@Override
-			public void validate(Object target, Errors errors) {
-				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.user_id", "user_id.missing");
-			}
-			@Override
-			public boolean supports(Class<?> clazz) {
-				return UserForm.class.isAssignableFrom(clazz);
-			}
-		};
-		return new Validator[] { validator };
-	}
+//	@Override
+//	protected Validator getValidator() {
+//		Validator validator = new Validator() {
+//			@Override
+//			public void validate(Object target, Errors errors) {
+//				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.user_id", "user_id.missing");
+//			}
+//
+//			@Override
+//			public boolean supports(Class<?> clazz) {
+//				return UserForm.class.isAssignableFrom(clazz);
+//			}
+//		};
+//		return validator;
+//	}
 
 }
