@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+table {
+	width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	text-align: left;
+	padding: 1px 3px 1px 3px;
+	border: 1px solid black;
+}
+
+#page-wrapper {
+	width: 70%;
+	margin: 0px auto;
+}
+
+#input-table .label {
+	text-align: right;
+	font-weight: bold;
+}

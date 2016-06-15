@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+#page-wrapper {
+	width: 50%;
+	margin: 0px auto;
+}
+
+table {
+	width: 100%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	text-align: left;
+	padding: 1px 3px 1px 3px;
+	border: 1px solid black;
+}
+
+#input-table .label {
+	text-align: right;
+	font-weight: bold;
+}
+
+#submit {
+	text-align: right;
+}
+
+.input * {
+	width: 90%;
+}

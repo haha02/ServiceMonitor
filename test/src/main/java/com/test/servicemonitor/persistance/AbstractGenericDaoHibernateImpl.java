@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.springframework.util.Assert;
 
 public abstract class AbstractGenericDaoHibernateImpl<T> extends GenericDaoHibernateSupport
@@ -28,7 +29,8 @@ public abstract class AbstractGenericDaoHibernateImpl<T> extends GenericDaoHiber
 	@Override
 	public void save(T entity) {
 		assertEntityNotNull(entity);
-		getCurrentSession().save(entity);
+		Session session = getCurrentSession();
+		session.save(entity);
 	}
 
 	@Override

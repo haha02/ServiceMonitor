@@ -6,10 +6,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
-	<context:component-scan base-package="com.test.servicemonitor.controller" />
+	<context:component-scan base-package="com.test.servicemonitor.web" />
 	
 	<mvc:annotation-driven />
-
+	<mvc:resources mapping="/css/**" location="/css/" />
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

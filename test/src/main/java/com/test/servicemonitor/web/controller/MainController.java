@@ -1,4 +1,4 @@
-package com.test.servicemonitor.controller;
+package com.test.servicemonitor.web.controller;
 
 import java.util.HashMap;
 import java.util.Map;
