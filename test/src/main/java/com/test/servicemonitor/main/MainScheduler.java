@@ -20,9 +20,9 @@ import org.springframework.util.StringUtils;
 import com.test.servicemonitor.check.CheckerFactory;
 import com.test.servicemonitor.check.LifeChecker;
 import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
+import com.test.servicemonitor.persistance.MonitorStatusService;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
-import com.test.servicemonitor.util.Constants;
 
 @Component
 public class MainScheduler {
@@ -40,9 +40,12 @@ public class MainScheduler {
 
 	@Autowired
 	private SystemConfig systemConfig;
-	
+
 	@Autowired
 	private FailedCheckProcessingGateway failedCheckProcessingGateway;
+
+	@Autowired
+	private MonitorStatusService statusService;
 
 	// key: systemId, value: current task & trigger
 	private Map<String, TaskAndTrigger> monitoredSystems = new ConcurrentHashMap<>();
@@ -101,10 +104,12 @@ public class MainScheduler {
 		Properties hints = getHintsProperties(rs);
 		LifeChecker checker = checkerFactory.getChecker(systemId, checkerType, rs.getConnection_string(), hints);
 
-		MonitorTask task = new MonitorTask(systemId, checker, failedCheckProcessingGateway);
+		MonitorTask task = new MonitorTask(systemId, checker, failedCheckProcessingGateway, statusService, this);
 		MonitorTrigger trigger = new MonitorTrigger(systemId, remoteSystemService);
+		
 		taskScheduler.schedule(task, trigger);
 		monitoredSystems.put(systemId, new TaskAndTrigger(task, trigger));
+		statusService.updateMonitoring(systemId, true);
 		return true;
 	}
 
@@ -123,8 +128,7 @@ public class MainScheduler {
 	}
 
 	/**
-	 * Packing {@link MonitorTask} with {@link MonitorTrigger}, for internal
-	 * use.
+	 * Packing {@link MonitorTask} with {@link MonitorTrigger}, for internal use.
 	 */
 	private class TaskAndTrigger {
 		MonitorTask task;
@@ -138,9 +142,8 @@ public class MainScheduler {
 	}
 
 	/**
-	 * Restart the monitor of the specified system. If the checker type of given
-	 * system is changed, it needs to be restart for the new checker type to
-	 * taking effect.
+	 * Restart the monitor of the specified system. If the checker type of given system is changed, it needs to be restart for the new checker type to taking
+	 * effect.
 	 * 
 	 * @param systemId
 	 *            the system ID
@@ -175,6 +178,7 @@ public class MainScheduler {
 		if (tat != null) {
 			tat.task.setTerminated(true);
 			tat.trigger.setTraminated(true);
+			statusService.updateMonitoring(systemId, false);
 			return true;
 		}
 		return false;
@@ -196,8 +200,7 @@ public class MainScheduler {
 	 * 
 	 * @param systemId
 	 *            the system ID
-	 * @return {@code true} if the given system is being monitored,
-	 *         {@code false} otherwise.
+	 * @return {@code true} if the given system is being monitored, {@code false} otherwise.
 	 */
 	public boolean isMonitored(String systemId) {
 		return monitoredSystems.containsKey(systemId);

@@ -54,8 +54,8 @@ public class Utils {
 		Class.forName(null);
 	}
 
-	public static Set<String> extractNotificationTypes(List<Notification> notifications) {
-		Set<String> set = new HashSet<>();
+	public static Set<Notification.Types> extractNotificationTypes(List<Notification> notifications) {
+		Set<Notification.Types> set = new HashSet<>();
 		for (Notification n : notifications) {
 			set.add(n.getKey().getNotify_type());
 		}

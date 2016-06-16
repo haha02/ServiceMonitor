@@ -7,11 +7,11 @@ public interface NotificationService {
 
 	List<Notification> getBySystemId(Notification entity);
 
-	Notification get(String systemId, String notifyType, String userGroup);
+	Notification get(String systemId, Notification.Types notifyType, String userGroup);
 
 	void create(Notification entity);
 
-	void delete(String systemId, String notifyType, String userGroup);
+	void delete(String systemId, Notification.Types notifyType, String userGroup);
 
 	void update(Notification entity);
 }

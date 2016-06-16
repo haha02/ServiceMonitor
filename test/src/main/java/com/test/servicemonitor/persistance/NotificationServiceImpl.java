@@ -17,7 +17,7 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public Notification get(String systemId, String notifyType, String userGroup) {
+	public Notification get(String systemId, Notification.Types notifyType, String userGroup) {
 		Notification entity = getEntity(systemId, notifyType, userGroup);
 		return dao.get(entity);
 	}
@@ -28,7 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void delete(String systemId, String notifyType, String userGroup) {
+	public void delete(String systemId, Notification.Types notifyType, String userGroup) {
 		Notification entity = getEntity(systemId, notifyType, userGroup);
 		dao.delete(entity);
 	}
@@ -38,7 +38,7 @@ public class NotificationServiceImpl implements NotificationService {
 		dao.update(entity);
 	}
 
-	private Notification getEntity(String systemId, String notifyType, String userGroup) {
+	private Notification getEntity(String systemId, Notification.Types notifyType, String userGroup) {
 		Notification.PK key = new Notification.PK();
 		key.setSystem_id(systemId);
 		key.setNotify_type(notifyType);

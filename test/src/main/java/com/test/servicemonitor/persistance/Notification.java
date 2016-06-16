@@ -8,19 +8,18 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.test.servicemonitor.check.FailLevel;
+
 @Entity
 @Table(name = "NOTIFICATION")
 public class Notification {
 
 	public static enum Types {
 		EMAIL, SMS;
-		public String getDbValue() {
-			return toString();
-		}
 	}
 
 	private PK key;
-	private String level;
+	private FailLevel level;
 
 	@EmbeddedId
 	public PK getKey() {
@@ -32,11 +31,11 @@ public class Notification {
 	}
 
 	@Column(name = "LEVEL")
-	public String getLevel() {
+	public FailLevel getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(FailLevel level) {
 		this.level = level;
 	}
 
@@ -46,7 +45,7 @@ public class Notification {
 		private static final long serialVersionUID = 1L;
 
 		private String system_id;
-		private String notify_type;
+		private Types notify_type;
 		private String user_group;
 
 		@Column(name = "SYSTEM_ID")
@@ -59,11 +58,11 @@ public class Notification {
 		}
 
 		@Column(name = "NOTIFY_TYPE")
-		public String getNotify_type() {
+		public Types getNotify_type() {
 			return notify_type;
 		}
 
-		public void setNotify_type(String notify_type) {
+		public void setNotify_type(Types notify_type) {
 			this.notify_type = notify_type;
 		}
 

@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.test.servicemonitor.check.CheckResult;
+import com.test.servicemonitor.check.FailLevel;
 import com.test.servicemonitor.check.LifeChecker;
 import com.test.servicemonitor.check.ThrowableEncolsingCheckResult;
 import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
+import com.test.servicemonitor.persistance.MonitorStatus;
+import com.test.servicemonitor.persistance.MonitorStatusService;
 
 public class MonitorTask implements Runnable {
 
@@ -23,15 +26,23 @@ public class MonitorTask implements Runnable {
 
 	private FailedCheckProcessingGateway failedCheckProcessingGateway;
 
-	public MonitorTask(String systemId, LifeChecker lifeChecker, FailedCheckProcessingGateway failedCheckProcessingGateway) {
-		super();
+	private MonitorStatusService statusService;
+
+	private MainScheduler mainScheduler;
+
+	public MonitorTask(String systemId, LifeChecker lifeChecker, FailedCheckProcessingGateway failedCheckProcessingGateway,
+			MonitorStatusService statusService, MainScheduler mainScheduler) {
 		Assert.notNull(systemId, "systemId must not be null");
 		Assert.notNull(lifeChecker, "lifeChecker must not be null");
 		Assert.notNull(failedCheckProcessingGateway, "failedCheckProcessingGateway must not be null");
+		Assert.notNull(statusService, "statusService must not be null");
+		Assert.notNull(mainScheduler, "mainScheduler must not be null");
 		this.systemId = systemId;
 		this.lifeChecker = lifeChecker;
 		this.taskId = systemId + "@Task" + Integer.toHexString(hashCode());
 		this.failedCheckProcessingGateway = failedCheckProcessingGateway;
+		this.statusService = statusService;
+		this.mainScheduler = mainScheduler;
 	}
 
 	@Override
@@ -40,20 +51,34 @@ public class MonitorTask implements Runnable {
 			logger.info("[{}]: traminated flag is true, return immediately.", taskId);
 			return;
 		}
-
 		CheckResult cr;
 		try {
 			cr = lifeChecker.check();
 		} catch (Exception e) {
 			cr = new ThrowableEncolsingCheckResult(e);// with level FATAL
 		}
-
+		MonitorStatus status = statusService.get(systemId);
 		if (cr.isPassed()) {
 			logger.info("[{}]: check passed, remote system is alive.", taskId);
+			doWhenPassed(cr, status);
 		} else {
 			logger.info("[{}]: check not passed, pass check result to failure processing.", taskId);
-			failedCheckProcessingGateway.process(systemId, cr);
+			doWhenFailed(cr, status);
 		}
+
+	}
+
+	private void doWhenPassed(CheckResult cr, MonitorStatus status) {
+		statusService.updateAlive(systemId, true);
+	}
+
+	private void doWhenFailed(CheckResult cr, MonitorStatus status) {
+		if (FailLevel.FATAL.equals(cr.getFailLevel())) {
+			mainScheduler.stop(systemId);
+		}
+		statusService.updateAlive(systemId, false);
+
+		failedCheckProcessingGateway.process(systemId, cr);
 	}
 
 	public String getSystemId() {

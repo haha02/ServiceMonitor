@@ -24,27 +24,28 @@ public abstract class AbstractNotificationSendingServiceActivator {
 
 	public void send(@Header("systemId") String systemId, @Header("notifications") List<Notification> notifications,
 			CheckResult checkResult) {
-		Notification mailNotification = null;
-		Notification.Types type = getTargetType();
-		Assert.notNull(type, "getTargetType() must not return null");
-		String mailDbValue = type.getDbValue();
+		
+		Notification.Types targetType = getTargetType();
+		Assert.notNull(targetType, "getTargetType() must not return null");
+
+		Notification desiredNotification = null;
 		for (Notification n : notifications) {
-			if (mailDbValue.equals(n.getKey())) {
-				mailNotification = n;
+			if (targetType.equals(n.getKey().getNotify_type())) {
+				desiredNotification = n;
 				break;
 			}
 		}
 
-		if (mailNotification == null) {
+		if (desiredNotification == null) {
 			logger.warn(
-					"System [{}] does not configured to send mail notification when check failed, finishing without doing anything."
+					"System [{}] does not configured to send type [{}] notification when check failed, finishing without doing anything."
 							+ " The check failed result: {}",
-					systemId, checkResult);
+					systemId, targetType, checkResult);
 
 			return;
 		}
 
-		String group_id = mailNotification.getKey().getUser_group();
+		String group_id = desiredNotification.getKey().getUser_group();
 		UserGroup userGroup = userGroupService.get(group_id);
 		List<UserInfo> users = userGroup.getUsers();
 
