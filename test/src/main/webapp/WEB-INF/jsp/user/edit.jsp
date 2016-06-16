@@ -21,26 +21,26 @@
 			<table id="input-table">
 				<tr>
 					<td class="label">ID*</td>
-					<td>${form.userInfo.user_id}</td>
+					<td>${form.user_id}</td>
 				</tr>
 				<tr>
 					<td class="label">Name</td>
-					<td class="input"><input name="userInfo.user_name" value="${form.userInfo.user_name}" /></td>
+					<td class="input"><input name="userInfo.user_name" value="${form.user_name}" /></td>
 				</tr>
 				<tr>
 					<td class="label">Email</td>
-					<td class="input"><input name="userInfo.email" value="${form.userInfo.email}" /></td>
+					<td class="input"><input name="userInfo.email" value="${form.email}" /></td>
 				</tr>
 				<tr>
 					<td class="label">SMS</td>
-					<td class="input"><input name="userInfo.sms" value="${form.userInfo.sms}" /></td>
+					<td class="input"><input name="userInfo.sms" value="${form.sms}" /></td>
 				</tr>
 				<tr>
 					<td class="label"></td>
 					<td id="submit"><input type="submit" /></td>
 				</tr>
 			</table>
-			<input type="hidden" name="userInfo.user_id" value="${form.userInfo.user_id}" />
+			<input type="hidden" name="userInfo.user_id" value="${form.user_id}" />
 		</form>
 	</div>
 </body>

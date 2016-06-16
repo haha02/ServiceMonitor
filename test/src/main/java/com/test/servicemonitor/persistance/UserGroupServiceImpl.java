@@ -25,7 +25,6 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	@Override
 	public void create(UserGroup entity) {
-		// TODO Auto-generated method stub
 		dao.save(entity);
 	}
 
@@ -38,7 +37,6 @@ public class UserGroupServiceImpl implements UserGroupService {
 
 	@Override
 	public void update(UserGroup entity) {
-		// TODO Auto-generated method stub
 		dao.update(entity);
 	}
 

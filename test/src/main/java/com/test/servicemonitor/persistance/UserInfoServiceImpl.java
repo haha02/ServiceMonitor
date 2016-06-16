@@ -40,4 +40,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		dao.delete(entity);
 	}
 
+	@Override
+	public List<UserInfo> getByIds(List<String> user_Ids) {
+		return dao.getByIds(user_Ids);
+	}
+
 }

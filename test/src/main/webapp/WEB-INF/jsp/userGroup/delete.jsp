@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Delete User</title>
+<title>Delete User Group</title>
 <link rel=stylesheet type="text/css"
 	href="<c:url value="/css/add.css" />">
 </head>
@@ -13,34 +13,34 @@
 	<div id="page-wrapper">
 		<div id="header">
 			<p style="text-align: right;">
-				<a href="<c:url value="/user/" />">Back</a>
+				<a href="<c:url value="/userGroup/" />">Back</a>
 			</p>
 		</div>
-		<h2>Delete User</h2>
-		<form action="<c:url value="/user/deleteSubmit" />" method="post">
+		<h2>Delete User Group</h2>
+		<form action="<c:url value="/userGroup/deleteSubmit" />" method="post">
 			<table id="input-table">
 				<tr>
 					<td class="label">ID*</td>
-					<td>${form.user_id}</td>
+					<td>${form.group_id}</td>
 				</tr>
 				<tr>
 					<td class="label">Name</td>
-					<td>${form.user_name}</td>
+					<td class="input">${form.group_name}</td>
 				</tr>
 				<tr>
-					<td class="label">Email</td>
-					<td>${form.email}</td>
-				</tr>
-				<tr>
-					<td class="label">SMS</td>
-					<td>${form.sms}</td>
+					<td class="label">Users</td>
+					<td class="input">
+							<c:forEach items="${form.users}" var="user" varStatus="sts">
+								${user.user_id} - ${user.user_name}<c:if test="${not sts.last}"><br /></c:if>
+							</c:forEach>
+					</td>
 				</tr>
 				<tr>
 					<td class="label"></td>
-					<td id="submit"><input type="submit" value="Get rid of this user"/></td>
+					<td id="submit"><input type="submit" /></td>
 				</tr>
 			</table>
-			<input type="hidden" name="userInfo.user_id" value="${form.user_id}" />
+			<input type="hidden" name="group_id" value="${form.group_id}" />
 		</form>
 	</div>
 </body>

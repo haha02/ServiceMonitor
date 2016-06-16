@@ -52,7 +52,7 @@ public abstract class AbstractGenericDaoHibernateImpl<T> extends GenericDaoHiber
 	protected Criteria createCriteria() {
 		Class<T> entityClass = getEntityClass();
 		Assert.state(entityClass != null, "getEntityClass() must not return null.");
-		return getCurrentSession().createCriteria(getEntityClass());
+		return getCurrentSession().createCriteria(getEntityClass()).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	}
 
 }

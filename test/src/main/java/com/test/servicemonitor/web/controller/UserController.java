@@ -2,14 +2,12 @@ package com.test.servicemonitor.web.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.DataBinder;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.test.servicemonitor.persistance.UserInfo;
@@ -47,41 +45,47 @@ public class UserController extends ControllerSupport {
 	}
 
 	@RequestMapping("/edit")
-	public String edit(@ModelAttribute("form") UserForm form, ModelMap model) {
-		UserInfo userInfo = form.getUserInfo();
-		userInfo = userInfoService.get(userInfo.getUser_id());
-		form.setUserInfo(userInfo);
+	public String edit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
+		if (bindingResult.hasErrors()) {
+			model.put("errors", bindingResult.getAllErrors());
+			return REDIRECT_ROOT_PATH;
+		}
+		UserInfo userInfo = userInfoService.get(form.getUser_id());
+		form.fromUserInfo(userInfo);
 		return EDIT_PATH;
 	}
 
 	@RequestMapping("/delete")
-	public String delete(@ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
-		UserInfo userInfo = form.getUserInfo();
-		userInfo = userInfoService.get(userInfo.getUser_id());
-		form.setUserInfo(userInfo);
+	public String delete(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
+		if (bindingResult.hasErrors()) {
+			model.put("errors", bindingResult.getAllErrors());
+			return REDIRECT_ROOT_PATH;
+		}
+		UserInfo userInfo = userInfoService.get(form.getUser_id());
+		form.fromUserInfo(userInfo);
 		return DELETE_PATH;
 	}
 
 	@RequestMapping("/addSubmit")
-	public String addSubmit(@ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
+	public String addSubmit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
 			model.put("errors", bindingResult.getAllErrors());
 		} else {
-			UserInfo userInfo = form.getUserInfo();
+			UserInfo userInfo = form.toUserInfo();
 			userInfoService.create(userInfo);
-			model.put("msg", "User [" + userInfo.getUser_id() + "] added.");
+			model.put("msg", "User [" + form.getUser_id() + "] added.");
 		}
 		return REDIRECT_ROOT_PATH;
 	}
 
 	@RequestMapping("/editSubmit")
-	public String editSubmit(@ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
+	public String editSubmit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
 			model.put("errors", bindingResult.getAllErrors());
 		} else {
-			UserInfo userInfo = form.getUserInfo();
+			UserInfo userInfo = form.toUserInfo();
 			userInfoService.update(userInfo);
-			model.put("msg", "User [" + userInfo.getUser_id() + "] edited.");
+			model.put("msg", "User [" + form.getUser_id() + "] edited.");
 		}
 		return REDIRECT_ROOT_PATH;
 	}
@@ -91,27 +95,10 @@ public class UserController extends ControllerSupport {
 		if (bindingResult.hasErrors()) {
 			model.put("errors", bindingResult.getAllErrors());
 		} else {
-			UserInfo userInfo = form.getUserInfo();
-			userInfoService.delete(userInfo.getUser_id());
-			model.put("msg", "User [" + userInfo.getUser_id() + "] deleted.");
+			userInfoService.delete(form.getUser_id());
+			model.put("msg", "User [" + form.getUser_id() + "] deleted.");
 		}
 		return REDIRECT_ROOT_PATH;
 	}
-
-//	@Override
-//	protected Validator getValidator() {
-//		Validator validator = new Validator() {
-//			@Override
-//			public void validate(Object target, Errors errors) {
-//				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userInfo.user_id", "user_id.missing");
-//			}
-//
-//			@Override
-//			public boolean supports(Class<?> clazz) {
-//				return UserForm.class.isAssignableFrom(clazz);
-//			}
-//		};
-//		return validator;
-//	}
 
 }

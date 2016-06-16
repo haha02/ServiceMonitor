@@ -21,19 +21,19 @@
 			<table id="input-table">
 				<tr>
 					<td class="label">ID*</td>
-					<td class="input"><input name="userInfo.user_id" value="" /></td>
+					<td class="input"><input name="user_id" value="" /></td>
 				</tr>
 				<tr>
 					<td class="label">Name</td>
-					<td class="input"><input name="userInfo.user_name" value="" /></td>
+					<td class="input"><input name="user_name" value="" /></td>
 				</tr>
 				<tr>
 					<td class="label">Email</td>
-					<td class="input"><input name="userInfo.email" value="" /></td>
+					<td class="input"><input name="email" value="" /></td>
 				</tr>
 				<tr>
 					<td class="label">SMS</td>
-					<td class="input"><input name="userInfo.sms" value="" /></td>
+					<td class="input"><input name="sms" value="" /></td>
 				</tr>
 				<tr>
 					<td class="label"></td>

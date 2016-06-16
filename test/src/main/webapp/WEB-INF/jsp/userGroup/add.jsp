@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Delete User</title>
+<title>Add User Group</title>
 <link rel=stylesheet type="text/css"
 	href="<c:url value="/css/add.css" />">
 </head>
@@ -13,34 +13,35 @@
 	<div id="page-wrapper">
 		<div id="header">
 			<p style="text-align: right;">
-				<a href="<c:url value="/user/" />">Back</a>
+				<a href="<c:url value="/userGroup/" />">Back</a>
 			</p>
 		</div>
-		<h2>Delete User</h2>
-		<form action="<c:url value="/user/deleteSubmit" />" method="post">
+		<h2>Add User Group</h2>
+		<form action="<c:url value="/userGroup/addSubmit" />" method="post">
 			<table id="input-table">
 				<tr>
 					<td class="label">ID*</td>
-					<td>${form.user_id}</td>
+					<td class="input"><input name="group_id" value="" /></td>
 				</tr>
 				<tr>
 					<td class="label">Name</td>
-					<td>${form.user_name}</td>
+					<td class="input"><input name="group_name" value="" /></td>
 				</tr>
 				<tr>
-					<td class="label">Email</td>
-					<td>${form.email}</td>
-				</tr>
-				<tr>
-					<td class="label">SMS</td>
-					<td>${form.sms}</td>
+					<td class="label">Users</td>
+					<td class="input">
+						<select name="userIds" multiple="multiple">
+							<c:forEach items="${userInfos}" var="userInfo">
+							<option value="${userInfo.user_id}">${userInfo.user_id} - ${userInfo.user_name}</option>
+							</c:forEach>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td class="label"></td>
-					<td id="submit"><input type="submit" value="Get rid of this user"/></td>
+					<td id="submit"><input type="submit" /></td>
 				</tr>
 			</table>
-			<input type="hidden" name="userInfo.user_id" value="${form.user_id}" />
 		</form>
 	</div>
 </body>

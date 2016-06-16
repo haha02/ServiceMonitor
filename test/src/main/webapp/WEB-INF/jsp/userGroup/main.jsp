@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Overview</title>
+<title>User Group Overview</title>
 <link rel=stylesheet type="text/css"
 	href="<c:url value="/css/main.css" />">
 </head>
@@ -15,7 +15,7 @@
 				<a href="<c:url value="/index" />">Back</a>
 			</p>
 		</div>
-		<h2>User Overview</h2>
+		<h2>User Group Overview</h2>
 		<div id="msg-zone">
 			<c:if test="${not empty param.errors}">
 				<p style="color: red;">${param.errors}</p>
@@ -25,32 +25,32 @@
 			</c:if>
 		</div>
 		<p style="text-align: right;">
-			<a href="<c:url value="/user/add" />">Add</a>
+			<a href="<c:url value="/userGroup/add" />">Add</a>
 		</p>
 		<table>
 			<tr>
 				<th>ID</th>
 				<th>Name</th>
-				<th>Email</th>
-				<th>SMS</th>
+				<th>Users</th>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
-			<c:forEach items="${users}" var="user">
+			<c:forEach items="${userGroups}" var="userGroup">
 				<tr class="data-row">
-					<td>${user.user_id}</td>
-					<td>${user.user_name}</td>
-					<td>${user.email}</td>
-					<td>${user.sms}</td>
+					<td>${userGroup.group_id}</td>
+					<td>${userGroup.group_name}</td>
+					<td>
+						<c:forEach items="${userGroup.users}" var="user" varStatus="sts">${user.user_id}<c:if test="${not sts.last}">,</c:if></c:forEach>
+					</td>
 					<td><a
-						href="<c:url value='/user/edit?user_id=${user.user_id}' />">edit</a></td>
+						href="<c:url value='/userGroup/edit?group_id=${userGroup.group_id}' />">edit</a></td>
 					<td><a
-						href="<c:url value='/user/delete?user_id=${user.user_id}'/>">delete</a></td>
+						href="<c:url value='/userGroup/delete?group_id=${userGroup.group_id}'/>">delete</a></td>
 				</tr>
 			</c:forEach>
-			<c:if test="${empty users}">
+			<c:if test="${empty userGroups}">
 				<tr>
-					<td colspan="6">No data</td>
+					<td colspan="5">No data</td>
 				</tr>
 			</c:if>
 		</table>
