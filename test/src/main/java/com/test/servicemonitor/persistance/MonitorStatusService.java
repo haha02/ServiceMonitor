@@ -12,6 +12,8 @@ public interface MonitorStatusService {
 
 	void update(MonitorStatus entity);
 
+	void updateAll(List<MonitorStatus> entities);
+
 	void delete(String system_id);
 	
 	void updateMonitoring(String system_id, boolean monitoring);

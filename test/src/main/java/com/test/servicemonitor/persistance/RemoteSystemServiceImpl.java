@@ -12,6 +12,9 @@ public class RemoteSystemServiceImpl implements RemoteSystemService {
 	@Autowired
 	private RemoteSystemDao dao;
 
+	@Autowired
+	private MonitorStatusDao monitorStatusDao;
+
 	@Override
 	public List<RemoteSystem> getAll() {
 		return dao.getAll();
@@ -28,6 +31,10 @@ public class RemoteSystemServiceImpl implements RemoteSystemService {
 	public void create(RemoteSystem entity) {
 		Assert.notNull(entity, "entity must not be null");
 		dao.save(entity);
+		MonitorStatus ms = new MonitorStatus();
+		ms.setSystem_id(entity.getSystem_id());
+		ms.setMonitoring(false);
+		monitorStatusDao.save(ms);
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public abstract class AbstractNotificationSendingServiceActivator {
 
 	private List<Notification> filterOutNonTarget(List<Notification> notifications) {
 		Notification.Types targetType = getTargetType();
-		for (int i = notifications.size(); i >= 0; i--) {
+		for (int i = notifications.size() - 1; i >= 0; i--) {
 			Notification.Types nType = notifications.get(i).getKey().getNotify_type();
 			if (!targetType.equals(nType)) {
 				notifications.remove(i);

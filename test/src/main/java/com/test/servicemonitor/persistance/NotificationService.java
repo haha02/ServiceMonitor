@@ -5,7 +5,7 @@ import java.util.List;
 public interface NotificationService {
 	List<Notification> getAll();
 
-	List<Notification> getBySystemId(Notification entity);
+	List<Notification> getBySystemId(String systemId);
 
 	Notification get(String systemId, Notification.Types notifyType, String userGroup);
 

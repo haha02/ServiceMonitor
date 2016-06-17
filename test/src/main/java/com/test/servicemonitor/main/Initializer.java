@@ -1,5 +1,6 @@
 package com.test.servicemonitor.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,29 +22,65 @@ public class Initializer {
 	@Autowired
 	private MonitorStatusService monitorStatusService;
 
+	@Autowired
+	private SystemConfig systemConfig;
+
+	@Autowired
+	private MainScheduler mainScheduler;
+
 	@PostConstruct
 	public void init() {
-		List<RemoteSystem> remoteSystems = remoteSystemService.getAll();
-		List<MonitorStatus> monitorStatusList = monitorStatusService.getAll();
-		for (RemoteSystem rs : remoteSystems) {
-			boolean found = false;
-			for (MonitorStatus ms : monitorStatusList) {
+		initializeAllMonitorStatus();
+		startMonitorIfNeeded();
+	}
+
+	private void initializeAllMonitorStatus() {
+		List<MonitorStatus> statusList = monitorStatusService.getAll();
+		List<MonitorStatus> statusToUpdate = new ArrayList<>(statusList.size());
+		for (RemoteSystem rs : remoteSystemService.getAll()) {
+			MonitorStatus monitorStatus = null;
+			for (MonitorStatus ms : statusList) {
 				if (ms.getSystem_id().equals(rs.getSystem_id())) {
-					found = true;
+					monitorStatus = ms;
 					break;
 				}
+			} // end for each monitor status
+
+			if (monitorStatus == null) {
+				monitorStatusService.create(contructNewMonitorStatus(rs.getSystem_id()));
+				continue;
 			}
-			if (!found) {
-				MonitorStatus ms = contructNewMonitorStatus(rs.getSystem_id());
-				monitorStatusService.create(ms);
+
+			boolean needUpdate = false;
+			Boolean monitoring = monitorStatus.getMonitoring();
+			if (monitoring != null && monitoring) {
+				monitorStatus.setMonitoring(false);
+				needUpdate = true;
 			}
+			if (monitorStatus.getLast_check_time() == null) {
+				needUpdate = monitorStatus.getAlive() != null;
+				if (needUpdate)
+					monitorStatus.setAlive(null);
+			}
+			if (needUpdate) {
+				statusToUpdate.add(monitorStatus);
+			}
+		} // end for each remote system
+
+		if (statusToUpdate.size() > 0) {
+			monitorStatusService.updateAll(statusToUpdate);
+		}
+	}// end method
+
+	private void startMonitorIfNeeded() {
+		if (systemConfig.isMonitorOnStarup()) {
+			mainScheduler.startAll();
 		}
 	}
 
 	private MonitorStatus contructNewMonitorStatus(String system_id) {
 		MonitorStatus ms = new MonitorStatus();
 		ms.setSystem_id(system_id);
-		ms.setAlive(false);
 		ms.setMonitoring(false);
 		return ms;
 	}

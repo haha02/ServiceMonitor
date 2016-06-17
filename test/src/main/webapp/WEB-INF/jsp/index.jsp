@@ -1,3 +1,4 @@
+<%@page import="java.sql.Timestamp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -44,26 +45,27 @@ table.content {
 		</table>
 		<hr />
 		<h2>System Status</h2>
+		<h3 style="text-align: right;">Printed time: <%= new Timestamp(System.currentTimeMillis()) %> <a href="<c:url value="/index"/>"><br />Refresh</a></h3>
 		<table class="content" style="width: 100%; margin: auto;">
 			<tr>
 				<th>ID</th>
 				<th>Monitored</th>
-				<th>Alive</th>
+				<th>Last Known Status</th>
 				<th>Last Check Time</th>
 				<th>Operation</th>
 			</tr>
 			<c:forEach items="${statusList}" var="status">
 			<tr>
 				<td>${status.system_id}</td>
-				<td>${status.monitoring}</td>
-				<td>${status.monitoring ? status.alive : '-'}</td>
-				<td>${status.monitoring ? status.last_check_time : '-'}</td>
+				<td>${status.monitoring ? 'YES' : 'NO'}</td>
+				<td>${status.alive == null ? '' : status.alive ? 'ALIVE' : 'DEAD'}</td>
+				<td>${status.last_check_time}</td>
 				<td>
 				<c:if test="${not status.monitoring}">	
-					<a href="./?start=${status.system_id}">Start</a>
+					<a href="<c:url value='/start?system_id=${status.system_id}'/>">Start</a>
 				</c:if>
 				<c:if test="${status.monitoring}">
-					<a href="./?stop=${status.system_id}">Stop</a>
+					<a href="<c:url value='/stop?system_id=${status.system_id}'/>">Stop</a>
 				</c:if>
 				</td>
 			</tr>

@@ -39,7 +39,7 @@ public class MonitorTask implements Runnable {
 		Assert.notNull(mainScheduler, "mainScheduler must not be null");
 		this.systemId = systemId;
 		this.lifeChecker = lifeChecker;
-		this.taskId = systemId + "@Task" + Integer.toHexString(hashCode());
+		this.taskId = systemId + "@Task:" + Integer.toHexString(hashCode());
 		this.failedCheckProcessingGateway = failedCheckProcessingGateway;
 		this.statusService = statusService;
 		this.mainScheduler = mainScheduler;

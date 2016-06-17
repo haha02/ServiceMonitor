@@ -38,6 +38,12 @@ public class NotificationServiceImpl implements NotificationService {
 		dao.update(entity);
 	}
 
+	@Override
+	public List<Notification> getBySystemId(String systemId) {
+		Notification entity = getEntity(systemId, null, null);
+		return dao.getBySystemId(entity);
+	}
+
 	private Notification getEntity(String systemId, Notification.Types notifyType, String userGroup) {
 		Notification.PK key = new Notification.PK();
 		key.setSystem_id(systemId);
@@ -47,11 +53,6 @@ public class NotificationServiceImpl implements NotificationService {
 		Notification entity = new Notification();
 		entity.setKey(key);
 		return entity;
-	}
-
-	@Override
-	public List<Notification> getBySystemId(Notification entity) {
-		return dao.getBySystemId(entity);
 	}
 
 }

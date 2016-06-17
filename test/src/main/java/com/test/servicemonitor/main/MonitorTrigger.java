@@ -30,7 +30,7 @@ public class MonitorTrigger implements Trigger {
 		Assert.notNull(remoteSystemService, "remoteSystemService must not be null");
 		this.systemId = systemId;
 		this.remoteSystemService = remoteSystemService;
-		this.triggerId = systemId + "@Trigger" + Integer.toHexString(hashCode());
+		this.triggerId = systemId + "@Trigger:" + Integer.toHexString(hashCode());
 	}
 
 	@Override

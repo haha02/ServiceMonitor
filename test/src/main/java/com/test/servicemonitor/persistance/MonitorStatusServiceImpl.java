@@ -39,6 +39,15 @@ public class MonitorStatusServiceImpl implements MonitorStatusService {
 	}
 
 	@Override
+	public void updateAll(List<MonitorStatus> entities) {
+		if (entities == null)
+			return;
+		for (MonitorStatus entity : entities) {
+			dao.update(entity);
+		}
+	}
+
+	@Override
 	public void delete(String system_id) {
 		MonitorStatus entity = new MonitorStatus();
 		entity.setSystem_id(system_id);

@@ -81,9 +81,12 @@ public class MainScheduler {
 	 * 
 	 * @param systemId
 	 *            the system ID
-	 * @return {@code false} if the system ID does not exist in storage
+	 * @return {@code true} if start successfully or the system is already being monitored. {@code false} if the system ID does not exist in storage.
 	 */
 	public boolean start(String systemId) {
+		if (monitoredSystems.get(systemId) != null) {
+			return true;
+		}
 		RemoteSystem rs = remoteSystemService.get(systemId);
 		if (rs != null) {// XXX throw exception when null instead?
 			return start(rs);
@@ -106,7 +109,7 @@ public class MainScheduler {
 
 		MonitorTask task = new MonitorTask(systemId, checker, failedCheckProcessingGateway, statusService, this);
 		MonitorTrigger trigger = new MonitorTrigger(systemId, remoteSystemService);
-		
+
 		taskScheduler.schedule(task, trigger);
 		monitoredSystems.put(systemId, new TaskAndTrigger(task, trigger));
 		statusService.updateMonitoring(systemId, true);
@@ -171,7 +174,7 @@ public class MainScheduler {
 	 * 
 	 * @param systemId
 	 *            the system ID
-	 * @return {@code false} if the system does not being monitored.
+	 * @return {@code false} if the system does not being monitored currently.
 	 */
 	public boolean stop(String systemId) {
 		TaskAndTrigger tat = monitoredSystems.remove(systemId);
