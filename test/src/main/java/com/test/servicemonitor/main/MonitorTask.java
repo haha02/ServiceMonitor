@@ -69,15 +69,22 @@ public class MonitorTask implements Runnable {
 	}
 
 	private void doWhenPassed(CheckResult cr, MonitorStatus status) {
+		logger.debug("[{}]: Updating status to [alive=true].", taskId);
 		statusService.updateAlive(systemId, true);
 	}
 
 	private void doWhenFailed(CheckResult cr, MonitorStatus status) {
+		logger.info("[{}]: The fail level is [{}], fail message is [{}].", taskId, cr.getFailLevel(), cr.getFailMessage());
+
 		if (FailLevel.FATAL.equals(cr.getFailLevel())) {
+			logger.info("[{}]: The fail leve is FATAL, stop this monitoring task.", taskId);
 			mainScheduler.stop(systemId);
 		}
+		
+		logger.debug("[{}]: Updating status to [alive=false].", taskId);
 		statusService.updateAlive(systemId, false);
-
+		
+		logger.debug("[{}]: Passing check result to failed check processing flow.", taskId);
 		failedCheckProcessingGateway.process(systemId, cr);
 	}
 

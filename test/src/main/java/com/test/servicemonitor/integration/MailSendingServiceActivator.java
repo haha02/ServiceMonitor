@@ -19,9 +19,10 @@ public class MailSendingServiceActivator extends AbstractNotificationSendingServ
 	}
 
 	@Override
-	protected void sendToUsers(String systemId, List<Notification> notifications, CheckResult checkResult,
-			List<UserInfo> users) {
+	protected void sendToUsers(String systemId, CheckResult checkResult, List<UserInfo> users) {
 		String subject = systemId + " life checking failed.";
+		checkResult.getFailLevel();
+
 		for (UserInfo user : users) {
 			mailSendingGateway.send(user, subject, checkResult.getFailMessage());
 		}
