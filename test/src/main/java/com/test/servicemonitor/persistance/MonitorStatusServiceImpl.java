@@ -58,7 +58,7 @@ public class MonitorStatusServiceImpl implements MonitorStatusService {
 		MonitorStatus entity = new MonitorStatus();
 		entity.setSystem_id(system_id);
 		entity.setAlive(alive);
-		entity.setLastCheckTime(new Timestamp(System.currentTimeMillis()));
+		entity.setLast_check_time(new Timestamp(System.currentTimeMillis()));
 		dao.updateAlive(entity);
 	}
 

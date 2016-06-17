@@ -51,7 +51,7 @@ public class MonitorStatus {
 		return last_check_time;
 	}
 
-	public void setLastCheckTime(Timestamp last_check_time) {
+	public void setLast_check_time(Timestamp last_check_time) {
 		this.last_check_time = last_check_time;
 	}
 
