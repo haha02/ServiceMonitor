@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Monitor status entity class
+ */
 @Entity
 @Table(name = "MONITOR_STATUS")
 public class MonitorStatus {

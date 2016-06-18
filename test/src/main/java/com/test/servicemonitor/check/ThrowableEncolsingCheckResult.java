@@ -1,5 +1,9 @@
 package com.test.servicemonitor.check;
 
+/**
+ * {@link CheckResult} implementation that wrapped a {@link Throwable} and use the Throwable's message as fail message.
+ *
+ */
 public class ThrowableEncolsingCheckResult implements CheckResult {
 
 	private Throwable t;

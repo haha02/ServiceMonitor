@@ -10,6 +10,9 @@ import javax.persistence.Table;
 
 import com.test.servicemonitor.check.FailLevel;
 
+/**
+ * Notification entity class
+ */
 @Entity
 @Table(name = "NOTIFICATION")
 public class Notification {

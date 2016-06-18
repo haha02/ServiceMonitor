@@ -12,6 +12,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+/**
+ * User group entity class
+ */
 @Entity
 @Table(name = "USER_GROUP")
 public class UserGroup {

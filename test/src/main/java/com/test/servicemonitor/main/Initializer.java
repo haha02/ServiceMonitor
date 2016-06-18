@@ -13,6 +13,10 @@ import com.test.servicemonitor.persistance.MonitorStatusService;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 
+/**
+ * Component responsible for initializing database and triggering system monitoring on system startup.
+ *
+ */
 @Component
 public class Initializer {
 
@@ -28,13 +32,22 @@ public class Initializer {
 	@Autowired
 	private MainScheduler mainScheduler;
 
+	/**
+	 * Initializing method to be called after dependency injection
+	 */
 	@PostConstruct
 	public void init() {
 		initializeAllMonitorStatus();
 		startMonitorIfNeeded();
 	}
 
-	private void initializeAllMonitorStatus() {
+	/**
+	 * Correct or add missing {@link MonitorStatus} entries.
+	 * <p>
+	 * Invalid {@link MonitorStatus} state may result from previous system crush or inappropriate shut down, something like that. That's where this method comes
+	 * to rescue.
+	 */
+	protected void initializeAllMonitorStatus() {
 		List<MonitorStatus> statusList = monitorStatusService.getAll();
 		List<MonitorStatus> statusToUpdate = new ArrayList<>(statusList.size());
 		for (RemoteSystem rs : remoteSystemService.getAll()) {
@@ -72,16 +85,19 @@ public class Initializer {
 		}
 	}// end method
 
-	private void startMonitorIfNeeded() {
-		if (systemConfig.isMonitorOnStarup()) {
-			mainScheduler.startAll();
-		}
-	}
-
 	private MonitorStatus contructNewMonitorStatus(String system_id) {
 		MonitorStatus ms = new MonitorStatus();
 		ms.setSystem_id(system_id);
 		ms.setMonitoring(false);
 		return ms;
+	}
+
+	/**
+	 * Start monitor remote systems if the system is configured to do so.
+	 */
+	protected void startMonitorIfNeeded() {
+		if (systemConfig.isMonitorOnStarup()) {
+			mainScheduler.startAll();
+		}
 	}
 }

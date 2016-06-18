@@ -50,10 +50,6 @@ public class Utils {
 		return sb.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
-		Class.forName(null);
-	}
-
 	public static Set<Notification.Types> extractNotificationTypes(List<Notification> notifications) {
 		Set<Notification.Types> set = new HashSet<>();
 		for (Notification n : notifications) {

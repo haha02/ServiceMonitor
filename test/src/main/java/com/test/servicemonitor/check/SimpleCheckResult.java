@@ -1,5 +1,9 @@
 package com.test.servicemonitor.check;
 
+/**
+ * Simple {@link CheckResult} implementation
+ *
+ */
 public class SimpleCheckResult implements CheckResult {
 	private boolean passed;
 	private String failMessage;

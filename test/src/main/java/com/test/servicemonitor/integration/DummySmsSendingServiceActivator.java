@@ -6,6 +6,10 @@ import com.test.servicemonitor.check.CheckResult;
 import com.test.servicemonitor.persistance.Notification.Types;
 import com.test.servicemonitor.persistance.UserInfo;
 
+/**
+ * Dummy SMS sending service activator, just print some log without doing anything.
+ *
+ */
 public class DummySmsSendingServiceActivator extends AbstractNotificationSendingServiceActivator {
 
 	@Override

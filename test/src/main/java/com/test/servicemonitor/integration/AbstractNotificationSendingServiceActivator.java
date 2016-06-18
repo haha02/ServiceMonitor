@@ -14,6 +14,15 @@ import com.test.servicemonitor.persistance.UserGroup;
 import com.test.servicemonitor.persistance.UserGroupService;
 import com.test.servicemonitor.persistance.UserInfo;
 
+/**
+ * Abstract notification sending service activator.
+ * <p>
+ * This implementation checks if the fail level weight is equal or greater than a notification setting's fail level threshold. If not, the notification is
+ * ignored. After fail level threshold checking, the implementation acquire users of the current notification setting entry and pass the check result and
+ * acquired users to {@link #sendToUsers(String, CheckResult, List)} to send notification to those users. This method will be called once for each notification
+ * setting entry.
+ *
+ */
 public abstract class AbstractNotificationSendingServiceActivator {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -60,7 +69,22 @@ public abstract class AbstractNotificationSendingServiceActivator {
 		return notifications;
 	}
 
+	/**
+	 * Get the notification type this implementation is targeting.
+	 * 
+	 * @return the notification type
+	 */
 	protected abstract Notification.Types getTargetType();
 
+	/**
+	 * Send notification to users in one notification setting entry.
+	 * 
+	 * @param systemId
+	 *            the system ID
+	 * @param checkResult
+	 *            the check result
+	 * @param users
+	 *            the users in one notification setting entry
+	 */
 	protected abstract void sendToUsers(String systemId, CheckResult checkResult, List<UserInfo> users);
 }

@@ -2,14 +2,20 @@ package com.test.servicemonitor.persistance;
 
 import java.util.List;
 
-public interface GenericCrudDao<T> {
-	T get(T entity);
+/**
+ * Generic CRUD data access object interface
+ *
+ * @param <E>
+ *            the entity type
+ */
+public interface GenericCrudDao<E> {
+	E get(E entity);
 
-	List<T> getAll();
+	List<E> getAll();
 
-	void save(T entity);
+	void save(E entity);
 
-	void update(T entity);
+	void update(E entity);
 
-	void delete(T entity);
+	void delete(E entity);
 }

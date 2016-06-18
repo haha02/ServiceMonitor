@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+/**
+ * System configuration resolving class.
+ *
+ */
 @Component
 public class SystemConfig {
 
@@ -19,21 +23,16 @@ public class SystemConfig {
 	@Qualifier("config")
 	private Properties config;
 
-	private boolean logSQL;
 	private boolean monitorOnStarup;
 
+	/**
+	 * Initializing method to be called after dependency injection.
+	 * 
+	 */
 	@PostConstruct
 	public void init() {
-		
-		logSQL = "true".equalsIgnoreCase(config.getProperty("servicemonitor.log.sql"));
-		logger.info("log SQL feature enabled: {}", logSQL);
-		
 		monitorOnStarup = "true".equalsIgnoreCase(config.getProperty("servicemonitor.monitor.on.startup"));
 		logger.info("Monitor on startup: {}", monitorOnStarup);
-	}
-
-	public boolean isLogSQL() {
-		return logSQL;
 	}
 
 	public boolean isMonitorOnStarup() {

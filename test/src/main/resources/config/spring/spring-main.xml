@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sqlLifeChecker" class="com.test.servicemonitor.check.impl.SqlLifeChecker"
+		lazy-init="true" scope="prototype">
+		<constructor-arg name="systemId" value="dummy" />
+		<constructor-arg name="connectionString" value="dummy" />
+		<constructor-arg name="driverClass" value="dummy" />
+		<constructor-arg name="user" value="dummy" />
+		<constructor-arg name="password" value="dummy" />
+	</bean>
+	
+</beans>

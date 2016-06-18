@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Remote system entity class
+ */
 @Entity
 @Table(name = "REMOTE_SYSTEM")
 public class RemoteSystem {
@@ -22,6 +25,7 @@ public class RemoteSystem {
 			return miliSec;
 		}
 	}
+
 	private String system_id;
 	private String checker_type;
 	private String connection_string;

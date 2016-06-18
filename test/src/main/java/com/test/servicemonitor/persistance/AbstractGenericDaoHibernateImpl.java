@@ -7,50 +7,56 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.springframework.util.Assert;
 
-public abstract class AbstractGenericDaoHibernateImpl<T> extends GenericDaoHibernateSupport
-		implements GenericCrudDao<T> {
+/**
+ * Abstract generic DAO implemented using Hibernate
+ *
+ * @param <E>
+ *            the entity type
+ */
+public abstract class AbstractGenericDaoHibernateImpl<E> extends HibernateDaoSupport
+		implements GenericCrudDao<E> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T get(T entity) {
+	public E get(E entity) {
 		assertEntityNotNull(entity);
-		Class<T> entityClass = getEntityClass();
+		Class<E> entityClass = getEntityClass();
 		Assert.state(entityClass != null, "getEntityClass() must not return null.");
 		Serializable id = acquireId(entity);
-		return (T) getCurrentSession().get(entityClass, id);
+		return (E) getCurrentSession().get(entityClass, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getAll() {
+	public List<E> getAll() {
 		return createCriteria().list();
 	}
 
 	@Override
-	public void save(T entity) {
+	public void save(E entity) {
 		assertEntityNotNull(entity);
 		Session session = getCurrentSession();
 		session.save(entity);
 	}
 
 	@Override
-	public void update(T entity) {
+	public void update(E entity) {
 		assertEntityNotNull(entity);
 		getCurrentSession().update(entity);
 	}
 
 	@Override
-	public void delete(T entity) {
+	public void delete(E entity) {
 		assertEntityNotNull(entity);
 		getCurrentSession().delete(entity);
 	}
 
-	protected abstract Serializable acquireId(T entity);
+	protected abstract Serializable acquireId(E entity);
 
-	protected abstract Class<T> getEntityClass();
+	protected abstract Class<E> getEntityClass();
 
 	protected Criteria createCriteria() {
-		Class<T> entityClass = getEntityClass();
+		Class<E> entityClass = getEntityClass();
 		Assert.state(entityClass != null, "getEntityClass() must not return null.");
 		return getCurrentSession().createCriteria(getEntityClass()).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	}

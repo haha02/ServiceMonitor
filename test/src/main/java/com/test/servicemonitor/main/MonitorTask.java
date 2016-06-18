@@ -80,10 +80,10 @@ public class MonitorTask implements Runnable {
 			logger.info("[{}]: The fail leve is FATAL, stop this monitoring task.", taskId);
 			mainScheduler.stop(systemId);
 		}
-		
+
 		logger.debug("[{}]: Updating status to [alive=false].", taskId);
 		statusService.updateAlive(systemId, false);
-		
+
 		logger.debug("[{}]: Passing check result to failed check processing flow.", taskId);
 		failedCheckProcessingGateway.process(systemId, cr);
 	}
@@ -110,6 +110,7 @@ public class MonitorTask implements Runnable {
 
 	public void setTerminated(boolean terminated) {
 		this.terminated = terminated;
+		this.lifeChecker.stop();
 	}
 
 	public void setFailedCheckProcessingGateway(FailedCheckProcessingGateway failedCheckProcessingGateway) {

@@ -39,6 +39,11 @@ public enum FailLevel {
 		return weight;
 	}
 
+	/**
+	 * Get all values of this enumeration, order by weight, ascending.
+	 * 
+	 * @return the weight, the higher the value the more severe the fail is.
+	 */
 	public static FailLevel[] valuesByWeight() {
 		List<FailLevel> list = new ArrayList<>(Arrays.asList(values()));
 		Collections.sort(list, new Comparator<FailLevel>() {

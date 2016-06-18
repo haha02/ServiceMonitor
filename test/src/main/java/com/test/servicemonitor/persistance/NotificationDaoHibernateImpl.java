@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 @Repository
 public class NotificationDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<Notification>
@@ -13,8 +15,11 @@ public class NotificationDaoHibernateImpl extends AbstractGenericDaoHibernateImp
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Notification> getBySystemId(Notification entity) {
+		assertEntityNotNull(entity);
+		Notification.PK key = entity.getKey();
+		Assert.notNull(key, "entity key must not be null");
 		Criteria c = getCurrentSession().createCriteria(Notification.class);
-		addEqRestriction(c, "key.system_id", entity.getKey().getSystem_id());
+		c.add(Restrictions.eq("key.system_id", key.getSystem_id()));
 		return c.list();
 	}
 

@@ -75,4 +75,9 @@ public class RestWebServiceLifeChecker extends AbstractLifeChecker {
 			this.params = params;
 	}
 
+	@Override
+	public void stop() {
+		// do nothing
+	}
+
 }
