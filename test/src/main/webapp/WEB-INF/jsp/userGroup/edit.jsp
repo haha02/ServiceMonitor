@@ -33,8 +33,8 @@
 					<td class="input"><select name="userIds" multiple="multiple">
 							<c:forEach items="${userInfos}" var="userInfo">
 								<option value="${userInfo.user_id}"
-									<c:forEach items="${form.users}" var="selectedUser">
-										<c:if test="${selectedUser.user_id == userInfo.user_id}">selected</c:if>
+									<c:forEach items="${form.members}" var="member">
+										<c:if test="${member.user.user_id == userInfo.user_id}">selected</c:if>
 									</c:forEach>
 								>${userInfo.user_id} - ${userInfo.user_name}</option>
 							</c:forEach>

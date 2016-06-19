@@ -1,5 +1,6 @@
 package com.test.servicemonitor.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,11 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.test.servicemonitor.persistance.GroupMember;
 import com.test.servicemonitor.persistance.UserGroup;
 import com.test.servicemonitor.persistance.UserGroupService;
 import com.test.servicemonitor.persistance.UserInfo;
 import com.test.servicemonitor.persistance.UserInfoService;
 import com.test.servicemonitor.web.form.UserGroupForm;
+
 /**
  * Controller of {@link UserGroup} CRUD pages
  *
@@ -46,7 +49,7 @@ public class UserGroupController extends ControllerSupport {
 		model.put("userGroups", userGroups);
 		return ROOT_PATH;
 	}
-	
+
 	@RequestMapping("/add")
 	public String add(ModelMap model) {
 		List<UserInfo> userInfos = userInfoService.getAll();
@@ -62,7 +65,7 @@ public class UserGroupController extends ControllerSupport {
 		}
 		UserGroup userGroup = userGroupService.get(form.getGroup_id());
 		form.fromUserGroup(userGroup);
-		
+
 		List<UserInfo> userInfos = userInfoService.getAll();
 		model.put("userInfos", userInfos);
 		return EDIT_PATH;
@@ -118,9 +121,20 @@ public class UserGroupController extends ControllerSupport {
 		UserGroup userGroup = form.toUserGroup();
 		List<String> userIds = form.getUserIds();
 		if (userIds != null) {
-			List<UserInfo> users = userInfoService.getByIds(userIds);
-			userGroup.setUsers(users);
+			userGroup.setMembers(getMembers(userGroup, userIds));
 		}
 		return userGroup;
+	}
+
+	private List<GroupMember> getMembers(UserGroup userGroup, List<String> userIds) {
+		List<UserInfo> users = userInfoService.getByIds(userIds);
+		List<GroupMember> members = new ArrayList<>();
+		for (UserInfo u : users) {
+			GroupMember gm = new GroupMember();
+			gm.setUser(u);
+			gm.setGroup(userGroup);
+			members.add(gm);
+		}
+		return members;
 	}
 }

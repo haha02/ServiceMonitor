@@ -40,7 +40,7 @@
 					<td>${userGroup.group_id}</td>
 					<td>${userGroup.group_name}</td>
 					<td>
-						<c:forEach items="${userGroup.users}" var="user" varStatus="sts">${user.user_id}<c:if test="${not sts.last}">,</c:if></c:forEach>
+						<c:forEach items="${userGroup.members}" var="member" varStatus="sts">${member.user.user_id}<c:if test="${not sts.last}">,</c:if></c:forEach>
 					</td>
 					<td><a
 						href="<c:url value='/userGroup/edit?group_id=${userGroup.group_id}' />">edit</a></td>

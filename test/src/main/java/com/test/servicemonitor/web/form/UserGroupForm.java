@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import com.test.servicemonitor.persistance.GroupMember;
 import com.test.servicemonitor.persistance.UserGroup;
-import com.test.servicemonitor.persistance.UserInfo;
 
 /**
  * 
@@ -20,7 +20,7 @@ public class UserGroupForm {
 	private String group_id;
 	private String group_name;
 
-	private List<UserInfo> users;
+	private List<GroupMember> members;
 	private List<String> userIds;
 
 	public String getGroup_id() {
@@ -39,26 +39,26 @@ public class UserGroupForm {
 		this.group_name = group_name;
 	}
 
-	public List<UserInfo> getUsers() {
-		return users;
+	public List<GroupMember> getMembers() {
+		return members;
 	}
 
-	public void setUsers(List<UserInfo> users) {
-		this.users = users;
+	public void setMembers(List<GroupMember> members) {
+		this.members = members;
 	}
 
 	public void fromUserGroup(UserGroup userGroup) {
 		Assert.notNull(userGroup);
 		this.group_id = userGroup.getGroup_id();
 		this.group_name = userGroup.getGroup_name();
-		this.users = userGroup.getUsers();
+		this.members = userGroup.getMembers();
 	}
 
 	public UserGroup toUserGroup() {
 		UserGroup userGroup = new UserGroup();
 		userGroup.setGroup_id(group_id);
 		userGroup.setGroup_name(group_name);
-		userGroup.setUsers(users);
+		userGroup.setMembers(members);
 		return userGroup;
 	}
 
@@ -69,8 +69,8 @@ public class UserGroupForm {
 		builder.append(group_id);
 		builder.append(", group_name=");
 		builder.append(group_name);
-		builder.append(", users=");
-		builder.append(users);
+		builder.append(", members=");
+		builder.append(members);
 		builder.append(", userIds=");
 		builder.append(userIds);
 		builder.append("]");

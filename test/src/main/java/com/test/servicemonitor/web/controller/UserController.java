@@ -1,5 +1,7 @@
 package com.test.servicemonitor.web.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -41,6 +43,12 @@ public class UserController extends ControllerSupport {
 	public String root(ModelMap model) {
 		List<UserInfo> users = userInfoService.getAll();
 		model.put("users", users);
+		Collections.sort(users, new Comparator<UserInfo>() {
+			@Override
+			public int compare(UserInfo o1, UserInfo o2) {
+				return o1.getUser_id().compareTo(o2.getUser_id());
+			}
+		});
 		return ROOT_PATH;
 	}
 
@@ -52,7 +60,7 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("/edit")
 	public String edit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			model.put("errors", bindingResult.getAllErrors());
+			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 			return REDIRECT_ROOT_PATH;
 		}
 		UserInfo userInfo = userInfoService.get(form.getUser_id());
@@ -63,7 +71,7 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("/delete")
 	public String delete(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			model.put("errors", bindingResult.getAllErrors());
+			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 			return REDIRECT_ROOT_PATH;
 		}
 		UserInfo userInfo = userInfoService.get(form.getUser_id());
@@ -74,7 +82,7 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("/addSubmit")
 	public String addSubmit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			model.put("errors", bindingResult.getAllErrors());
+			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 		} else {
 			UserInfo userInfo = form.toUserInfo();
 			userInfoService.create(userInfo);
@@ -86,7 +94,7 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("/editSubmit")
 	public String editSubmit(@Valid @ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			model.put("errors", bindingResult.getAllErrors());
+			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 		} else {
 			UserInfo userInfo = form.toUserInfo();
 			userInfoService.update(userInfo);
@@ -98,7 +106,7 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("/deleteSubmit")
 	public String deleteSubmit(@ModelAttribute("form") UserForm form, BindingResult bindingResult, ModelMap model) {
 		if (bindingResult.hasErrors()) {
-			model.put("errors", bindingResult.getAllErrors());
+			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 		} else {
 			userInfoService.delete(form.getUser_id());
 			model.put("msg", "User [" + form.getUser_id() + "] deleted.");

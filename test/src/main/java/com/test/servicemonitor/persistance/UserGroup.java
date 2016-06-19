@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
@@ -22,7 +21,7 @@ public class UserGroup {
 	private String group_id;
 	private String group_name;
 
-	private List<UserInfo> users;
+	private List<GroupMember> members;
 
 	@Id
 	@Column(name = "GROUP_ID")
@@ -43,16 +42,14 @@ public class UserGroup {
 		this.group_name = group_name;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "GROUP_MEMBER", joinColumns = {
-			@JoinColumn(name = "GROUP_ID", referencedColumnName = "GROUP_ID") }, inverseJoinColumns = {
-					@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID") })
-	public List<UserInfo> getUsers() {
-		return users;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "GROUP_ID")
+	public List<GroupMember> getMembers() {
+		return members;
 	}
 
-	public void setUsers(List<UserInfo> users) {
-		this.users = users;
+	public void setMembers(List<GroupMember> members) {
+		this.members = members;
 	}
 
 	@Override

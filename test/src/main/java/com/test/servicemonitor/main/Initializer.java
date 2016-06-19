@@ -37,8 +37,14 @@ public class Initializer {
 	 */
 	@PostConstruct
 	public void init() {
+		insertDefaultData();
 		initializeAllMonitorStatus();
 		startMonitorIfNeeded();
+	}
+
+	private void insertDefaultData() {
+		// TODO
+
 	}
 
 	/**

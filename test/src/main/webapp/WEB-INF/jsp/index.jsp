@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Overview</title>
+<title>Service Monitor</title>
 <style>
 #page-wrapper {
 	width: 60%;
@@ -71,7 +71,7 @@ table.content {
 			</tr>
 			</c:forEach>
 			<c:if test="${empty statusList}">
-				<td colspan="4">No data</td>
+				<td colspan="5">No data</td>
 			</c:if>
 		</table>
 	</div>

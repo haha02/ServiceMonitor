@@ -30,14 +30,14 @@
 				<tr>
 					<td class="label">Users</td>
 					<td class="input">
-							<c:forEach items="${form.users}" var="user" varStatus="sts">
-								${user.user_id} - ${user.user_name}<c:if test="${not sts.last}"><br /></c:if>
+							<c:forEach items="${form.members}" var="member" varStatus="sts">
+								${member.user.user_id} - ${member.user.user_name}<c:if test="${not sts.last}"><br /></c:if>
 							</c:forEach>
 					</td>
 				</tr>
 				<tr>
 					<td class="label"></td>
-					<td id="submit"><input type="submit" /></td>
+					<td id="submit"><input type="submit" value="Don't need this group anymore"/></td>
 				</tr>
 			</table>
 			<input type="hidden" name="group_id" value="${form.group_id}" />

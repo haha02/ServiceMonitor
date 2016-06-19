@@ -36,7 +36,7 @@
 				</tr>
 				<tr>
 					<td class="label"></td>
-					<td id="submit"><input type="submit" /></td>
+					<td id="submit"><input type="submit" value="Let this notification R.I.P."/></td>
 				</tr>
 			</table>
 			<input type="hidden" name="system_id" value="${form.system_id}" />

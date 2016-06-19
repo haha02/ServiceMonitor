@@ -40,7 +40,7 @@
 					<td id="submit"><input type="submit" value="Get rid of this user"/></td>
 				</tr>
 			</table>
-			<input type="hidden" name="userInfo.user_id" value="${form.user_id}" />
+			<input type="hidden" name="user_id" value="${form.user_id}" />
 		</form>
 	</div>
 </body>
