@@ -35,6 +35,10 @@ public class SystemConfig {
 		logger.info("Monitor on startup: {}", monitorOnStarup);
 	}
 
+	/**
+	 * Whether remote system monitoring should be start right after system startup.
+	 * 
+	 */
 	public boolean isMonitorOnStarup() {
 		return monitorOnStarup;
 	}

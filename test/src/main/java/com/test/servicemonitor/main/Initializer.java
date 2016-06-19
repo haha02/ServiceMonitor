@@ -14,7 +14,7 @@ import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 
 /**
- * Component responsible for initializing database and triggering system monitoring on system startup.
+ * Initializing database and triggering system monitoring on system startup.
  *
  */
 @Component

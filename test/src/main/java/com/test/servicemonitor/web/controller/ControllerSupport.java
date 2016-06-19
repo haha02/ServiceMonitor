@@ -7,8 +7,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
@@ -25,8 +23,7 @@ import com.test.servicemonitor.main.SystemConfig;
  * 
  * Abstract controller support.
  * <p>
- * Provides default binder setting, reference of logger and system
- * configuration, and methods to get request/session/servlet context.
+ * Provides default binder setting, reference of logger and system configuration, and methods to get request/session/servlet context.
  *
  */
 public abstract class ControllerSupport {
@@ -36,39 +33,14 @@ public abstract class ControllerSupport {
 	@Autowired
 	protected SystemConfig systemConfig;
 
+	/**
+	 * Initialize data binder
+	 * 
+	 * @param binder
+	 *            the binder
+	 */
 	@InitBinder
 	protected void initBinder(DataBinder binder) {
-		// class ValueOfInvokingPropertyEditorSupport extends
-		// PropertyEditorSupport {
-		// private Class<?> clazz;
-		//
-		// ValueOfInvokingPropertyEditorSupport(Class<?> clazz) {
-		// this.clazz = clazz;
-		// }
-		//
-		// @Override
-		// public String getAsText() {
-		// Object value = getValue();
-		// return (value == null) ? "" : value.toString();
-		// }
-		//
-		// @Override
-		// public void setAsText(String text) throws IllegalArgumentException {
-		// if (StringUtils.isEmpty(text)) {
-		// return;
-		// }
-		// try {
-		// setValue(clazz.getMethod("valueOf", String.class).invoke(null,
-		// text));
-		// } catch (Exception e) {
-		// setValue(null);
-		// }
-		// }
-		// }
-		// binder.registerCustomEditor(Date.class, new
-		// ValueOfInvokingPropertyEditorSupport(Date.class));
-		// binder.registerCustomEditor(Timestamp.class, new
-		// ValueOfInvokingPropertyEditorSupport(Timestamp.class));
 		binder.setAutoGrowCollectionLimit(1000);
 		Validator validator = getValidator();
 		if (validator != null) {
@@ -104,18 +76,23 @@ public abstract class ControllerSupport {
 	}
 
 	/**
-	 * Overrride this method to provide {@link Validator} implementations to be
-	 * used by {@link DataBinder}, if any.
+	 * Override this method to provide {@link Validator} implementations to be used by {@link DataBinder}, if any.
 	 * <p>
 	 * The default implementation of this method simply returns {@code null}.
 	 * 
-	 * @return valiators, if the returned array is {@code null} or empty, it is
-	 *         ignored.
+	 * @return validators, if the returned array is {@code null} or empty, it is ignored.
 	 */
 	protected Validator getValidator() {
 		return null;
 	}
 
+	/**
+	 * Convert binding errors to single error message
+	 * 
+	 * @param list
+	 *            the binding errors
+	 * @return the error message
+	 */
 	protected String toErrorMsg(List<ObjectError> list) {
 		StringBuilder sb = new StringBuilder();
 		for (ObjectError oe : list) {

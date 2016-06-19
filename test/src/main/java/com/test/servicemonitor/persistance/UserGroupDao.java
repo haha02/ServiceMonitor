@@ -1,5 +1,9 @@
 package com.test.servicemonitor.persistance;
 
-public interface UserGroupDao extends GenericCrudDao<UserGroup>{
-	
+/**
+ * DAO interface of entity {@link UserGroup}
+ *
+ */
+public interface UserGroupDao extends GenericCrudDao<UserGroup> {
+
 }

@@ -9,6 +9,11 @@ import org.springframework.util.Assert;
 import com.test.servicemonitor.persistance.UserGroup;
 import com.test.servicemonitor.persistance.UserInfo;
 
+/**
+ * 
+ * Form bean of {@link UserGroup} CRUD pages
+ *
+ */
 public class UserGroupForm {
 
 	@NotNull

@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Repository;
 
+/**
+ * {@link RemoteSystemDao} hibernate based implementation
+ *
+ */
 @Repository
 public class RemoteSystemDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<RemoteSystem> implements RemoteSystemDao {
 
@@ -17,6 +21,5 @@ public class RemoteSystemDaoHibernateImpl extends AbstractGenericDaoHibernateImp
 	protected Class<RemoteSystem> getEntityClass() {
 		return RemoteSystem.class;
 	}
-
 
 }

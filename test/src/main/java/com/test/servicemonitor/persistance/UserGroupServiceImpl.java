@@ -5,9 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * {@link UserGroupService} implementation
+ *
+ */
 @Service
 public class UserGroupServiceImpl implements UserGroupService {
-	
+
 	@Autowired
 	private UserGroupDao dao;
 

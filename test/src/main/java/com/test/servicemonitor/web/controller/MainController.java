@@ -15,18 +15,28 @@ import com.test.servicemonitor.main.MainScheduler;
 import com.test.servicemonitor.persistance.MonitorStatus;
 import com.test.servicemonitor.persistance.MonitorStatusService;
 
+/**
+ * Controller of index page
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class MainController {
+
 	private static final String INDEX_PATH = "index";
 	private static final String REDIRECT_INDEX_PATH = "redirect:/index";
+
 	@Autowired
 	private MonitorStatusService monitorStatusService;
 
 	@Autowired
 	private MainScheduler mainScheduler;
 
-	@RequestMapping(path = { "/", "index*" }, method = { RequestMethod.GET, RequestMethod.POST })
+	/**
+	 * Index page
+	 * 
+	 */
+	@RequestMapping(path = { "/", "index*" }, method = { RequestMethod.GET })
 	public String index(ModelMap modelMap) {
 		List<MonitorStatus> statusList = monitorStatusService.getAll();
 		Collections.sort(statusList, new Comparator<MonitorStatus>() {
@@ -39,12 +49,20 @@ public class MainController {
 		return INDEX_PATH;
 	}
 
+	/**
+	 * Start to monitor a remote system
+	 * 
+	 */
 	@RequestMapping(path = { "/start" }, method = { RequestMethod.GET })
 	public String start(@RequestParam("system_id") String system_id, ModelMap modelMap) {
 		mainScheduler.start(system_id);
 		return REDIRECT_INDEX_PATH;
 	}
 
+	/**
+	 * Stop monitoring a remote system
+	 * 
+	 */
 	@RequestMapping(path = { "/stop" }, method = { RequestMethod.GET })
 	public String stop(@RequestParam("system_id") String system_id, ModelMap modelMap) {
 		mainScheduler.stop(system_id);

@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Repository;
 
+/**
+ * {@link UserGroupDao} hibernate based implementation
+ *
+ */
 @Repository
 public class UserGroupDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<UserGroup> implements UserGroupDao {
 

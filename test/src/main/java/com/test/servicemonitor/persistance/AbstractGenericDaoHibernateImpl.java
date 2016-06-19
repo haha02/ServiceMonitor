@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.util.Assert;
 
 /**
@@ -51,14 +52,32 @@ public abstract class AbstractGenericDaoHibernateImpl<E> extends HibernateDaoSup
 		getCurrentSession().delete(entity);
 	}
 
+	/**
+	 * Acquire the ID from the entity
+	 * 
+	 * @param entity
+	 *            the entity
+	 * @return the ID of the entity
+	 */
 	protected abstract Serializable acquireId(E entity);
 
+	/**
+	 * Get the class of the entity this DAO handles
+	 * 
+	 * @return the entity class
+	 */
 	protected abstract Class<E> getEntityClass();
 
+	/**
+	 * Convenient method to create a hibernate {@link Criteria} using the entity class and set the result transformer to
+	 * {@link CriteriaSpecification#DISTINCT_ROOT_ENTITY}.
+	 * 
+	 * @return the created criteria
+	 */
 	protected Criteria createCriteria() {
 		Class<E> entityClass = getEntityClass();
 		Assert.state(entityClass != null, "getEntityClass() must not return null.");
-		return getCurrentSession().createCriteria(getEntityClass()).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return getCurrentSession().createCriteria(getEntityClass()).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 	}
 
 }

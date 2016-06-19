@@ -6,7 +6,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * {@link MonitorStatusDao} implementation
+ * {@link MonitorStatusDao} hibernate based implementation
  *
  */
 @Repository
@@ -29,8 +29,8 @@ public class MonitorStatusDaoHibernateImpl extends AbstractGenericDaoHibernateIm
 				+ "SET alive=:alive,last_check_time=:last_check_time "
 				+ "WHERE system_id=:system_id");
 		q.setParameter("alive", entity.getAlive());
-		q.setParameter("system_id", entity.getSystem_id());
 		q.setParameter("last_check_time", entity.getLast_check_time());
+		q.setParameter("system_id", entity.getSystem_id());
 		q.executeUpdate();
 	}
 

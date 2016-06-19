@@ -10,10 +10,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.test.servicemonitor.persistance.UserInfo;
 import com.test.servicemonitor.persistance.UserInfoService;
 import com.test.servicemonitor.web.form.UserForm;
 
+/**
+ * Controller of {@link UserInfo} CRUD pages
+ *
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController extends ControllerSupport {

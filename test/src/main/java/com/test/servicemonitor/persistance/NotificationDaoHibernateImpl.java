@@ -8,6 +8,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+/**
+ * {@link NotificationDao} hibernate based implementation
+ * 
+ */
 @Repository
 public class NotificationDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<Notification>
 		implements NotificationDao {

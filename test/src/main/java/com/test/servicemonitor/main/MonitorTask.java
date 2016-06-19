@@ -12,6 +12,12 @@ import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
 import com.test.servicemonitor.persistance.MonitorStatus;
 import com.test.servicemonitor.persistance.MonitorStatusService;
 
+/**
+ * Remote system monitoring task. One execution of this task represents one remote system life check action.
+ * <p>
+ * Using {@link LifeChecker} to monitoring the targeted remote system and pass failed check result to {@link FailedCheckProcessingGateway} for further handling.
+ *
+ */
 public class MonitorTask implements Runnable {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -30,6 +36,20 @@ public class MonitorTask implements Runnable {
 
 	private MainScheduler mainScheduler;
 
+	/**
+	 * Construct an instance of this class
+	 * 
+	 * @param systemId
+	 *            the target remote system ID
+	 * @param lifeChecker
+	 *            the life checker to check the remote system
+	 * @param failedCheckProcessingGateway
+	 *            gateway to failed check result handling
+	 * @param statusService
+	 *            monitor status service, used to update the current status of the monitored system
+	 * @param mainScheduler
+	 *            main scheduler, used to stop monitoring a system when the fail level of the check result is FATAL
+	 */
 	public MonitorTask(String systemId, LifeChecker lifeChecker, FailedCheckProcessingGateway failedCheckProcessingGateway,
 			MonitorStatusService statusService, MainScheduler mainScheduler) {
 		Assert.notNull(systemId, "systemId must not be null");
@@ -45,6 +65,13 @@ public class MonitorTask implements Runnable {
 		this.mainScheduler = mainScheduler;
 	}
 
+	/**
+	 * Check whether the remote system is alive.
+	 * <p>
+	 * This method first check whether this task is marked as terminated (can be set by {@link #setTerminated(boolean)}). If marked {@code true} then the method
+	 * returns immediately. Otherwise it invokes the {@link LifeChecker} to check the remote system.
+	 * 
+	 */
 	@Override
 	public void run() {
 		if (terminated) {
@@ -88,33 +115,42 @@ public class MonitorTask implements Runnable {
 		failedCheckProcessingGateway.process(systemId, cr);
 	}
 
+	/**
+	 * Get the remote system ID
+	 * 
+	 * @return the ID
+	 */
 	public String getSystemId() {
 		return systemId;
 	}
 
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
-	}
-
+	/**
+	 * Get the life checker
+	 * 
+	 * @return the life checker
+	 */
 	public LifeChecker getLifeChecker() {
 		return lifeChecker;
 	}
 
-	public void setLifeChecker(LifeChecker lifeChecker) {
-		this.lifeChecker = lifeChecker;
-	}
-
+	/**
+	 * Whether this task is marked as terminated
+	 * 
+	 * @return {@code true} if it is.
+	 */
 	public boolean isTerminated() {
 		return terminated;
 	}
 
+	/**
+	 * Mark this task is terminated.
+	 * 
+	 * @param terminated
+	 *            the flag
+	 */
 	public void setTerminated(boolean terminated) {
 		this.terminated = terminated;
 		this.lifeChecker.stop();
-	}
-
-	public void setFailedCheckProcessingGateway(FailedCheckProcessingGateway failedCheckProcessingGateway) {
-		this.failedCheckProcessingGateway = failedCheckProcessingGateway;
 	}
 
 }

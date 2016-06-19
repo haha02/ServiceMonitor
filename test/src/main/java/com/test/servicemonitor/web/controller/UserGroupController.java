@@ -16,7 +16,10 @@ import com.test.servicemonitor.persistance.UserGroupService;
 import com.test.servicemonitor.persistance.UserInfo;
 import com.test.servicemonitor.persistance.UserInfoService;
 import com.test.servicemonitor.web.form.UserGroupForm;
-
+/**
+ * Controller of {@link UserGroup} CRUD pages
+ *
+ */
 @Controller
 @RequestMapping("/userGroup")
 public class UserGroupController extends ControllerSupport {

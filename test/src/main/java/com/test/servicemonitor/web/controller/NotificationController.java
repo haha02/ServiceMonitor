@@ -19,6 +19,10 @@ import com.test.servicemonitor.persistance.UserGroup;
 import com.test.servicemonitor.persistance.UserGroupService;
 import com.test.servicemonitor.web.form.NotificationForm;
 
+/**
+ * Controller of {@link Notification} CRUD pages
+ *
+ */
 @Controller
 @RequestMapping("/notification")
 public class NotificationController {
@@ -91,7 +95,7 @@ public class NotificationController {
 		} else {
 			Notification notification = form.toNotification();
 			notificationService.create(notification);
-			model.put("msg", "Notification [" + form.getSystem_id() + ", " + form.getNotify_type() + "," + form.getUser_group() + "] added.");
+			model.put("msg", "Notification [" + getKeyString(form) + "] added.");
 		}
 		return REDIRECT_ROOT_PATH;
 	}
@@ -103,7 +107,7 @@ public class NotificationController {
 		} else {
 			Notification notification = form.toNotification();
 			notificationService.update(notification);
-			model.put("msg", "Notification [" + form.getSystem_id() + ", " + form.getNotify_type() + "," + form.getUser_group() + "] edited.");
+			model.put("msg", "Notification [" + getKeyString(form) + "] edited.");
 		}
 		return REDIRECT_ROOT_PATH;
 	}
@@ -114,9 +118,13 @@ public class NotificationController {
 			model.put("errors", bindingResult.getAllErrors());
 		} else {
 			notificationService.delete(form.getSystem_id(), form.getNotify_type(), form.getUser_group());
-			model.put("msg", "Notification [" + form.getSystem_id() + ", " + form.getNotify_type() + "," + form.getUser_group() + "] deleted.");
+			model.put("msg", "Notification [" + getKeyString(form) + "] deleted.");
 		}
 		return REDIRECT_ROOT_PATH;
+	}
+
+	private String getKeyString(NotificationForm form) {
+		return form.getSystem_id() + ", " + form.getNotify_type() + "," + form.getUser_group();
 	}
 
 }

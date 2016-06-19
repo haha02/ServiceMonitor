@@ -8,17 +8,22 @@ import com.test.servicemonitor.check.FailLevel;
 import com.test.servicemonitor.persistance.Notification;
 import com.test.servicemonitor.persistance.Notification.PK;
 
+/**
+ * 
+ * Form bean of {@link Notification} CRUD pages
+ *
+ */
 public class NotificationForm {
-	
+
 	@NotNull
 	private String system_id;
-	
+
 	@NotNull
 	private Notification.Types notify_type;
-	
+
 	@NotNull
 	private String user_group;
-	
+
 	private FailLevel level;
 
 	public String getSystem_id() {

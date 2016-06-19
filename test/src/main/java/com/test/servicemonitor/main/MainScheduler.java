@@ -24,6 +24,10 @@ import com.test.servicemonitor.persistance.MonitorStatusService;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 
+/**
+ * Schedule and stop system monitoring tasks
+ *
+ */
 @Component
 public class MainScheduler {
 
@@ -50,6 +54,9 @@ public class MainScheduler {
 	// key: systemId, value: current task & trigger
 	private Map<String, TaskAndTrigger> monitoredSystems = new ConcurrentHashMap<>();
 
+	/**
+	 * Initializing method to be called after dependency injection
+	 */
 	@PostConstruct
 	public void init() {
 		if (systemConfig.isMonitorOnStarup()) {

@@ -1,16 +1,9 @@
 package com.test.servicemonitor.persistance;
 
-import java.util.List;
+/**
+ * DAO interface of entity {@link RemoteSystem}
+ *
+ */
+public interface RemoteSystemDao extends GenericCrudDao<RemoteSystem> {
 
-public interface RemoteSystemDao {
-
-	RemoteSystem get(RemoteSystem entity);
-
-	List<RemoteSystem> getAll();
-
-	void save(RemoteSystem entity);
-
-	void update(RemoteSystem entity);
-
-	void delete(RemoteSystem entity);
 }

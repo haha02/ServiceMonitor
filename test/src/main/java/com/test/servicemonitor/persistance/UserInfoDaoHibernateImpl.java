@@ -8,6 +8,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+/**
+ * {@link UserInfoDao} hibernate based implementation
+ *
+ */
 @Repository
 public class UserInfoDaoHibernateImpl extends AbstractGenericDaoHibernateImpl<UserInfo> implements UserInfoDao {
 

@@ -10,8 +10,13 @@ import org.springframework.util.Assert;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystem.PeriodUnit;
 
+/**
+ * 
+ * Form bean of {@link RemoteSystem} CRUD pages
+ *
+ */
 public class RemoteSystemForm {
-	
+
 	@NotBlank
 	private String system_id;
 	@NotBlank

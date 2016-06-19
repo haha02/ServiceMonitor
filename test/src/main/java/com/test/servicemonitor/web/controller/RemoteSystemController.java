@@ -18,6 +18,10 @@ import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 import com.test.servicemonitor.web.form.RemoteSystemForm;
 
+/**
+ * Controller of {@link RemoteSystem} CRUD pages
+ *
+ */
 @Controller
 @RequestMapping("/remoteSystem")
 public class RemoteSystemController extends ControllerSupport {

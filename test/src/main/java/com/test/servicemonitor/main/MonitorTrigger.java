@@ -12,6 +12,13 @@ import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
 import com.test.servicemonitor.persistance.RemoteSystem.PeriodUnit;
 
+/**
+ * Trigger of remote system monitoring task.
+ * <p>
+ * This trigger determine the next execution time of the monitoring task by reading the configured check period and period unit of the remote system for each
+ * invoke.
+ *
+ */
 public class MonitorTrigger implements Trigger {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,6 +40,13 @@ public class MonitorTrigger implements Trigger {
 		this.triggerId = systemId + "@Trigger:" + Integer.toHexString(hashCode());
 	}
 
+	/**
+	 * Get the next execution time of the remote system monitoring task.
+	 * <p>
+	 * This method first check whether this task is marked as terminated (can be set by {@link #setTerminated(boolean)}). If marked {@code true} then the method
+	 * returns immediately. Otherwise it resolves the next execution time by the configured check period and period unit of the remote system.
+	 * 
+	 */
 	@Override
 	public Date nextExecutionTime(TriggerContext triggerContext) {
 		if (traminated) {
@@ -77,18 +91,30 @@ public class MonitorTrigger implements Trigger {
 		return period * pu.getUnitMiliSec();
 	}
 
+	/**
+	 * Get the remote system ID
+	 * 
+	 * @return the ID
+	 */
 	public String getSystemId() {
 		return systemId;
 	}
 
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
-	}
-
+	/**
+	 * Whether this task is marked as terminated
+	 * 
+	 * @return {@code true} if it is.
+	 */
 	public boolean isTraminated() {
 		return traminated;
 	}
 
+	/**
+	 * Mark this task is terminated.
+	 * 
+	 * @param terminated
+	 *            the flag
+	 */
 	public void setTraminated(boolean traminated) {
 		this.traminated = traminated;
 	}

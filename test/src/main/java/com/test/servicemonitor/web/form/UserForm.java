@@ -5,6 +5,11 @@ import org.springframework.util.Assert;
 
 import com.test.servicemonitor.persistance.UserInfo;
 
+/**
+ * 
+ * Form bean of {@link UserInfo} CRUD pages
+ *
+ */
 public class UserForm {
 	@NotBlank
 	private String user_id;
