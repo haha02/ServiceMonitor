@@ -7,8 +7,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +40,6 @@ public class MainScheduler {
 	private CheckerFactory checkerFactory;
 
 	@Autowired
-	private SystemConfig systemConfig;
-
-	@Autowired
 	private FailedCheckProcessingGateway failedCheckProcessingGateway;
 
 	@Autowired
@@ -54,29 +49,20 @@ public class MainScheduler {
 	private Map<String, TaskAndTrigger> monitoredSystems = new ConcurrentHashMap<>();
 
 	/**
-	 * Initializing method to be called after dependency injection
-	 */
-	@PostConstruct
-	public void init() {
-		if (systemConfig.isMonitorOnStarup()) {
-			logger.info("Monitor on startup is enabled, starting all enabled system monitor.");
-			startAll();
-			logger.info("All monitored system is {}", getMonitoredSystems());
-		}
-	}
-
-	/**
 	 * Start the monitor of the all system.
 	 * 
+	 * @param autoStartOnly
+	 *            whether only start monitoring task of remote systems which's auto-start flag is {@code true}.
+	 * 
 	 */
-	public void startAll() {
+	public void startAll(boolean autoStartOnly) {
 		if (monitoredSystems.size() != 0) {
 			stopAll();
 		}
 
 		List<RemoteSystem> rsList = remoteSystemService.getAll();
 		for (RemoteSystem rs : rsList) {
-			if (rs.getAuto_start() != null && rs.getAuto_start()) {
+			if (!autoStartOnly || (rs.getAuto_start() != null && rs.getAuto_start())) {
 				start(rs);
 			}
 		}

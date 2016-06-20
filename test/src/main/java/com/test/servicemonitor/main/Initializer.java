@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,8 @@ import com.test.servicemonitor.persistance.UserInfoService;
  */
 @Component
 public class Initializer {
+	
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private UserInfoService userInfoService;
@@ -127,7 +131,9 @@ public class Initializer {
 	 */
 	protected void startMonitorIfNeeded() {
 		if (systemConfig.isMonitorOnStarup()) {
-			mainScheduler.startAll();
+			logger.info("Monitor on startup is enabled, starting all enabled system monitor.");
+			mainScheduler.startAll(true);
+			logger.info("All monitored system is {}", mainScheduler.getMonitoredSystems());
 		}
 	}
 
