@@ -28,14 +28,14 @@
 		<property name="sessionFactory" ref="hibernateSessionFactory" />
 	</bean>
 	
+	<bean id="hibernateConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:config/hibernate.properties" />
+	</bean>
+	
 	<bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.test.servicemonitor.persistance" />
-		<property name="hibernateProperties">
-			<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-				<property name="location" value="classpath:config/hibernate.properties" />
-			</bean>
-		</property>
+		<property name="hibernateProperties" ref="hibernateConfig" />
 	</bean>
 
 	<tx:advice id="hibernateTxAdvice" transaction-manager="transactionManager">

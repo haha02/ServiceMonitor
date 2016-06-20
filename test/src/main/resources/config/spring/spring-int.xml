@@ -50,7 +50,7 @@
 	<int:channel id="sendEmailChannel" />
 	<int:channel id="sendSmsChannel" />
 
-	<int:recipient-list-router input-channel="failedCheckResultInEnriched"
+	<int:recipient-list-router id="notificationTypeRouter" input-channel="failedCheckResultInEnriched"
 		default-output-channel="nullChannel">
 		<int:recipient channel="sendEmailChannel"
 			selector-expression="headers.notificationTypes.contains(T(com.test.servicemonitor.persistance.Notification.Types).EMAIL)" />
@@ -58,10 +58,10 @@
 			selector-expression="headers.notificationTypes.contains(T(com.test.servicemonitor.persistance.Notification.Types).SMS)" />
 	</int:recipient-list-router>
 	
-	<int:service-activator ref="mailSendingServiceActivator" method="send" input-channel="sendEmailChannel" />
+	<int:service-activator id="sendMailSA" ref="mailSendingServiceActivator" method="send" input-channel="sendEmailChannel" />
 	<bean id="mailSendingServiceActivator" class="com.test.servicemonitor.integration.MailSendingServiceActivator"/>
 	
-	<int:service-activator ref="smsSendingServiceActivator" method="send" input-channel="sendSmsChannel" />
+	<int:service-activator id="sendSmsSA" ref="smsSendingServiceActivator" method="send" input-channel="sendSmsChannel" />
 	<bean id="smsSendingServiceActivator" class="com.test.servicemonitor.integration.DummySmsSendingServiceActivator"/>
 	
 	<int:gateway id="mailSendingGateway" 
@@ -70,7 +70,7 @@
 	
 	<int:channel id="outboundMail" />
 	
-	<int:chain input-channel="outboundMail">
+	<int:chain id="sendMainChain" input-channel="outboundMail">
 		<int-mail:header-enricher default-overwrite="false">
 			<int-mail:to expression="headers.userInfo.email"/>
 			<int-mail:from expression="'service.monitor@aotter.net'"/>

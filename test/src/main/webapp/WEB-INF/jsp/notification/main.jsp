@@ -29,7 +29,7 @@
 		</p>
 		<table>
 			<tr>
-				<th>ID</th>
+				<th>System ID</th>
 				<th>Notify Type</th>
 				<th>User Group</th>
 				<th>Level</th>

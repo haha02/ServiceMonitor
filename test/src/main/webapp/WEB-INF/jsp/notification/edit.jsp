@@ -20,7 +20,7 @@
 		<form action="<c:url value="/notification/editSubmit" />" method="post">
 			<table id="input-table">
 				<tr>
-					<td class="label">ID*</td>
+					<td class="label">System ID*</td>
 					<td>${form.system_id}</td>
 				</tr>
 				<tr>

@@ -21,7 +21,7 @@
 		<form action="<c:url value="/notification/addSubmit" />" method="post">
 			<table id="input-table">
 				<tr>
-					<td class="label">ID*</td>
+					<td class="label">System ID*</td>
 					<td class="input">
 						<select name="system_id">
 							<c:forEach items="${remoteSystems}" var="remoteSystem">

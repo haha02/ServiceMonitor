@@ -2,12 +2,14 @@ package com.test.servicemonitor.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.test.servicemonitor.check.FailLevel;
@@ -30,7 +32,7 @@ import com.test.servicemonitor.persistance.UserInfoService;
  */
 @Component
 public class Initializer {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -52,6 +54,10 @@ public class Initializer {
 	private SystemConfig systemConfig;
 
 	@Autowired
+	@Qualifier("hibernateConfig")
+	private Properties hibernateConfig;
+
+	@Autowired
 	private MainScheduler mainScheduler;
 
 	/**
@@ -59,7 +65,9 @@ public class Initializer {
 	 */
 	@PostConstruct
 	public void init() {
-		insertDefaultData();
+		if ("create".equalsIgnoreCase(hibernateConfig.getProperty("hibernate.hbm2ddl.auto"))) {
+			insertDefaultData();
+		}
 		initializeAllMonitorStatus();
 		startMonitorIfNeeded();
 	}
@@ -192,7 +200,7 @@ public class Initializer {
 		rs3.setPeriod_unit(PeriodUnit.MINUTE);
 		rs3.setAuto_start(true);
 		remoteSystemService.create(rs3);
-	
+
 		// Add notification
 		Notification n1 = new Notification();
 		Notification.PK pk1 = new Notification.PK();
