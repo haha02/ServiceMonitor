@@ -17,6 +17,18 @@ public class UserInfo {
 	private String email;
 	private String sms;
 
+	public UserInfo() {
+		super();
+	}
+
+	public UserInfo(String user_id, String user_name, String email, String sms) {
+		super();
+		this.user_id = user_id;
+		this.user_name = user_name;
+		this.email = email;
+		this.sms = sms;
+	}
+
 	@Id
 	@Column(name = "USER_ID")
 	public String getUser_id() {

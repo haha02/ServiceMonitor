@@ -24,7 +24,7 @@ public class MockServiceController extends ControllerSupport {
 
 			for (String val : entry.getValue()) {
 				String exp = entry.getKey() + "=" + val;
-				System.out.println(exp);
+				logger.info("request parameter [{}]", exp);
 				sb.append(link).append(exp);
 				if (link == '?')
 					link = '&';

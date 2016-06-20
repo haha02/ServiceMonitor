@@ -8,12 +8,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 
 import com.test.servicemonitor.check.CheckResult;
+import com.test.servicemonitor.check.LifeChecker;
 import com.test.servicemonitor.check.SimpleCheckResult;
 import com.test.servicemonitor.check.ThrowableEncolsingCheckResult;
 import com.test.servicemonitor.integration.HttpRequestGateway;
 
+/**
+ * {@link LifeChecker} implementation that monitoring a RESTful web service.
+ * <p>
+ * TODO may be further improved
+ *
+ */
 public class RestWebServiceLifeChecker extends AbstractLifeChecker {
+	
 	public static final String HINT_METHOD = "http-method";
+	
 	private Map<String, String> params = Collections.emptyMap();
 
 	private HttpRequestGateway gateway;

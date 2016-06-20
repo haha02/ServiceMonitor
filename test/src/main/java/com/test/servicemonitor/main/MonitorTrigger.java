@@ -56,7 +56,7 @@ public class MonitorTrigger implements Trigger {
 
 		Date lastSchTime = triggerContext.lastScheduledExecutionTime();
 		if (lastSchTime == null) {
-			Date now = new Date();
+			Date now = new Date(System.currentTimeMillis() + 10 * 1000);// delay 10 sec.
 			logger.debug("[{}]: the first scheduled execution time is [{}]", triggerId, now);
 			return now;
 		}

@@ -45,8 +45,8 @@
 					<td class="input">${form.period_unit}</td>
 				</tr>
 				<tr>
-					<td class="label">Disabled</td>
-					<td class="input">${form.disabled}</td>
+					<td class="label">Auto Start</td>
+					<td class="input">${form.auto_start}</td>
 				</tr>
 				<tr>
 					<td class="label"></td>

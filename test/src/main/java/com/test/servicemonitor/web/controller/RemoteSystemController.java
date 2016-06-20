@@ -3,6 +3,7 @@ package com.test.servicemonitor.web.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.test.servicemonitor.check.CheckerFactory;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
+import com.test.servicemonitor.util.Utils;
 import com.test.servicemonitor.web.form.RemoteSystemForm;
 
 /**
@@ -73,6 +75,7 @@ public class RemoteSystemController extends ControllerSupport {
 	@RequestMapping("/addSubmit")
 	public String addSubmit(@Valid @ModelAttribute("form") RemoteSystemForm form, BindingResult bindingResult,
 			ModelMap model) {
+		validateHints(form, bindingResult);
 		if (bindingResult.hasErrors()) {
 			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 		} else {
@@ -86,6 +89,7 @@ public class RemoteSystemController extends ControllerSupport {
 	@RequestMapping("/editSubmit")
 	public String editSubmit(@Valid @ModelAttribute("form") RemoteSystemForm form, BindingResult bindingResult,
 			ModelMap model) {
+		validateHints(form, bindingResult);
 		if (bindingResult.hasErrors()) {
 			model.put("errors", toErrorMsg(bindingResult.getAllErrors()));
 		} else {
@@ -109,35 +113,22 @@ public class RemoteSystemController extends ControllerSupport {
 		return REDIRECT_ROOT_PATH;
 	}
 
+	private void validateHints(RemoteSystemForm form, BindingResult bindingResult) {
+		// TODO Design new mechanism to avoid duplicating hints validation logic in adding remote system entry and life checker construction.
+		String checker_type = form.getChecker_type();
+		if ("SQL".equals(checker_type)) {
+			String hints = form.getHints();
+			Properties hintsProp = Utils.parseHints(hints);
+			if (hintsProp.getProperty("driverClass") == null) {
+				bindingResult.rejectValue("hints", "hints.missing.driverClass", "[driverClass] is missing in hints.");
+			}
+		}
+	}
+
 	private List<String> getSupportedCheckerTypes() {
 		List<String> list = new ArrayList<>(checkerFactory.getSupportedTypes());
 		Collections.sort(list);
 		return list;
 	}
-	// @Override
-	// protected Validator getValidator() {
-	// Validator validator = new Validator() {
-	// @Override
-	// public void validate(Object target, Errors errors) {
-	// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-	// "remoteSystem.system_id", "system_id.missing");
-	// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-	// "remoteSystem.checker_type", "checker_type.missing");
-	// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-	// "remoteSystem.connection_string",
-	// "connection_string.missing");
-	// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-	// "remoteSystem.check_period", "check_period.missing");
-	// ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-	// "remoteSystem.period_unit", "period_unit.missing");
-	// }
-	//
-	// @Override
-	// public boolean supports(Class<?> clazz) {
-	// return RemoteSystemForm.class.isAssignableFrom(clazz);
-	// }
-	// };
-	// return validator;
-	// }
 
 }

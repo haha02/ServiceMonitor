@@ -35,7 +35,7 @@
 				<th>Hints</th>
 				<th>Check Period</th>
 				<th>Period Unit</th>
-				<th>Disabled</th>
+				<th>Auto Start</th>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
@@ -47,7 +47,7 @@
 					<td>${remoteSystem.hints}</td>
 					<td>${remoteSystem.check_period}</td>
 					<td>${remoteSystem.period_unit}</td>
-					<td>${remoteSystem.disabled}</td>
+					<td>${remoteSystem.auto_start}</td>
 					<td><a
 						href="<c:url value='/remoteSystem/edit?system_id=${remoteSystem.system_id}' />">edit</a></td>
 					<td><a

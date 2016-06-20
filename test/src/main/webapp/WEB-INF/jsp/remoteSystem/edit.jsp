@@ -58,11 +58,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="label">Disabled</td>
+					<td class="label">Auto Start</td>
 					<td class="input">
-						<select name="disabled">
-							<option value="true" <c:if test="${form.disabled}">selected</c:if>>true</option>
-							<option value="false" <c:if test="${not form.disabled}">selected</c:if>>false</option>
+						<select name="auto_start">
+							<option value="true" <c:if test="${form.auto_start}">selected</c:if>>true</option>
+							<option value="false" <c:if test="${not form.auto_start}">selected</c:if>>false</option>
 						</select>
 					</td>
 				</tr>

@@ -58,9 +58,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="label">Disabled</td>
+					<td class="label">Auto Start</td>
 					<td class="input">
-						<select name="disabled">
+						<select name="auto_start">
 							<option value="true">true</option>
 							<option value="false">false</option>
 						</select>

@@ -1,6 +1,5 @@
 package com.test.servicemonitor.main;
 
-import java.io.StringReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.test.servicemonitor.check.CheckerFactory;
 import com.test.servicemonitor.check.LifeChecker;
@@ -23,6 +21,7 @@ import com.test.servicemonitor.integration.FailedCheckProcessingGateway;
 import com.test.servicemonitor.persistance.MonitorStatusService;
 import com.test.servicemonitor.persistance.RemoteSystem;
 import com.test.servicemonitor.persistance.RemoteSystemService;
+import com.test.servicemonitor.util.Utils;
 
 /**
  * Schedule and stop system monitoring tasks
@@ -77,7 +76,7 @@ public class MainScheduler {
 
 		List<RemoteSystem> rsList = remoteSystemService.getAll();
 		for (RemoteSystem rs : rsList) {
-			if (!rs.getDisabled()) {
+			if (rs.getAuto_start() != null && rs.getAuto_start()) {
 				start(rs);
 			}
 		}
@@ -111,7 +110,7 @@ public class MainScheduler {
 			return false;
 		}
 
-		Properties hints = getHintsProperties(rs);
+		Properties hints = Utils.parseHints(rs.getHints());
 		LifeChecker checker = checkerFactory.getChecker(systemId, checkerType, rs.getConnection_string(), hints);
 
 		MonitorTask task = new MonitorTask(systemId, checker, failedCheckProcessingGateway, statusService, this);
@@ -121,20 +120,6 @@ public class MainScheduler {
 		monitoredSystems.put(systemId, new TaskAndTrigger(task, trigger));
 		statusService.updateMonitoring(systemId, true);
 		return true;
-	}
-
-	private Properties getHintsProperties(RemoteSystem rs) {
-		String hints = rs.getHints();
-		Properties p = new Properties();
-		if (StringUtils.hasText(hints)) {
-			hints = hints.replace(",", "\n");
-			try (StringReader sr = new StringReader(hints);) {
-				p.load(sr);
-			} catch (Exception e) {
-				throw new IllegalArgumentException("Failed to parse hints, the entity is [" + rs + "]", e);
-			}
-		}
-		return p;
 	}
 
 	/**

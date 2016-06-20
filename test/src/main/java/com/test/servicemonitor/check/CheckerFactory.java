@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +21,7 @@ import com.test.servicemonitor.integration.HttpRequestGateway;
  */
 @Component
 public class CheckerFactory {
+
 	public static final String HINT_SQL_USER = "user";
 	public static final String HINT_SQL_PWD = "password";
 	public static final String HINT_SQL_DRIVER = "driverClass";
@@ -36,10 +35,17 @@ public class CheckerFactory {
 	private Map<String, SingleCheckerFactory> typeToFactoryMap = new HashMap<>();
 
 	/**
-	 * Initializing method, should be called after dependency injection.
+	 * Construct an instance of this class
 	 */
-	@PostConstruct
-	public void init() {
+	public CheckerFactory() {
+		super();
+		registerCheckerFactories();
+	}
+
+	/**
+	 * Register supported checker SingleCheckerFactory
+	 */
+	private void registerCheckerFactories() {
 		typeToFactoryMap.put("SQL", new SQLCheckerFactory());
 		typeToFactoryMap.put("REST", new RestCheckerFactory());
 		typeToFactoryMap.put("ALWAYS_FAIL_TRANSIENT", new AlwaysFailCheckerFactory(FailLevel.TRANSIENT));
@@ -94,6 +100,7 @@ public class CheckerFactory {
 	 *
 	 */
 	private interface SingleCheckerFactory {
+
 		LifeChecker getChecker(String systemId, String connectionString, Properties hints);
 	}
 
@@ -107,18 +114,14 @@ public class CheckerFactory {
 			String user = hints.getProperty("user");
 			String password = hints.getProperty("password");
 			String driverClass = hints.getProperty("driverClass");
-			try {
-				Object[] constructorArgs = new Object[] { systemId, connectionString, driverClass, user, password };
-				SqlLifeChecker checker = beanFactory.getBean(SqlLifeChecker.class, constructorArgs);
-				// new SqlLifeChecker(systemId, connectionString, driverClass, user, password);
-				return checker;
-			} catch (NullPointerException e) {
-				throw new IllegalArgumentException("Hint [" + HINT_SQL_DRIVER + "] is missing", e);
+			if (driverClass == null) {
+				throw new IllegalArgumentException("Hint [" + HINT_SQL_DRIVER + "] is missing.");
 			}
-			// catch (ClassNotFoundException e) {
-			// throw new IllegalArgumentException("Driver class not found in classpath: " + driverClass, e);
-			// }
+			Object[] constructorArgs = new Object[] { systemId, connectionString, driverClass, user, password };
+			SqlLifeChecker checker = beanFactory.getBean(SqlLifeChecker.class, constructorArgs);
+			return checker;
 		}
+
 	}
 
 	/**
@@ -162,10 +165,11 @@ public class CheckerFactory {
 
 				@Override
 				public void stop() {
+					// do nothing
 				}
 			};
 		}
 
-	}
+	}// end of class AlwaysFailCheckerFactory
 
 }

@@ -32,7 +32,7 @@ public class RemoteSystem {
 	private String hints;
 	private Integer check_period;
 	private PeriodUnit period_unit;
-	private Boolean disabled;
+	private Boolean auto_start;
 
 	@Id
 	@Column(name = "SYSTEM_ID")
@@ -89,13 +89,13 @@ public class RemoteSystem {
 		this.period_unit = period_unit;
 	}
 
-	@Column(name = "DISABLED")
-	public Boolean getDisabled() {
-		return disabled;
+	@Column(name = "AUTO_START")
+	public Boolean getAuto_start() {
+		return auto_start;
 	}
 
-	public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
+	public void setAuto_start(Boolean auto_start) {
+		this.auto_start = auto_start;
 	}
 
 	@Override
@@ -113,8 +113,8 @@ public class RemoteSystem {
 		builder.append(check_period);
 		builder.append(", periodUnit=");
 		builder.append(period_unit);
-		builder.append(", disabled=");
-		builder.append(disabled);
+		builder.append(", auto_start=");
+		builder.append(auto_start);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -126,7 +126,7 @@ public class RemoteSystem {
 		result = prime * result + check_period;
 		result = prime * result + ((checker_type == null) ? 0 : checker_type.hashCode());
 		result = prime * result + ((connection_string == null) ? 0 : connection_string.hashCode());
-		result = prime * result + ((disabled == null) ? 0 : disabled.hashCode());
+		result = prime * result + ((auto_start == null) ? 0 : auto_start.hashCode());
 		result = prime * result + ((hints == null) ? 0 : hints.hashCode());
 		result = prime * result + ((period_unit == null) ? 0 : period_unit.hashCode());
 		result = prime * result + ((system_id == null) ? 0 : system_id.hashCode());
@@ -154,10 +154,10 @@ public class RemoteSystem {
 				return false;
 		} else if (!connection_string.equals(other.connection_string))
 			return false;
-		if (disabled == null) {
-			if (other.disabled != null)
+		if (auto_start == null) {
+			if (other.auto_start != null)
 				return false;
-		} else if (!disabled.equals(other.disabled))
+		} else if (!auto_start.equals(other.auto_start))
 			return false;
 		if (hints == null) {
 			if (other.hints != null)

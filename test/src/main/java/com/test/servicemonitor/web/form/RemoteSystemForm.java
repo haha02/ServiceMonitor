@@ -28,7 +28,7 @@ public class RemoteSystemForm {
 	private Integer check_period;
 	@NotNull
 	private PeriodUnit period_unit;
-	private Boolean disabled;
+	private Boolean auto_start;
 
 	private List<String> supportedCheckerTypes;
 
@@ -80,12 +80,12 @@ public class RemoteSystemForm {
 		this.period_unit = period_unit;
 	}
 
-	public Boolean getDisabled() {
-		return disabled;
+	public Boolean getAuto_start() {
+		return auto_start;
 	}
 
-	public void setDisabled(Boolean disabled) {
-		this.disabled = disabled;
+	public void setAuto_start(Boolean disabled) {
+		this.auto_start = disabled;
 	}
 
 	public List<String> getSupportedCheckerTypes() {
@@ -104,7 +104,7 @@ public class RemoteSystemForm {
 		remoteSystem.setHints(hints);
 		remoteSystem.setCheck_period(check_period);
 		remoteSystem.setPeriod_unit(period_unit);
-		remoteSystem.setDisabled(disabled);
+		remoteSystem.setAuto_start(auto_start);
 		return remoteSystem;
 	}
 
@@ -116,7 +116,7 @@ public class RemoteSystemForm {
 		this.hints = remoteSystem.getHints();
 		this.check_period = remoteSystem.getCheck_period();
 		this.period_unit = remoteSystem.getPeriod_unit();
-		this.disabled = remoteSystem.getDisabled();
+		this.auto_start = remoteSystem.getAuto_start();
 	}
 
 	@Override
@@ -134,8 +134,8 @@ public class RemoteSystemForm {
 		builder.append(check_period);
 		builder.append(", period_unit=");
 		builder.append(period_unit);
-		builder.append(", disabled=");
-		builder.append(disabled);
+		builder.append(", auto_start=");
+		builder.append(auto_start);
 		builder.append(", supportedCheckerTypes=");
 		builder.append(supportedCheckerTypes);
 		builder.append("]");
